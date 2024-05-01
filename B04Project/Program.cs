@@ -19,7 +19,7 @@ namespace B04Project
     public class GameManager
     {
         static Player player;
-        //static MonsterManager monsterManager;
+        static MonsterManager monsterManager;
         static BattleStart BattleStart;
         
         public GameManager()
@@ -29,8 +29,7 @@ namespace B04Project
 
         public void InitializeGame()
         {
-            //player = new Player("B04", "전사", 01, 10, 5, 100, 2000); //상태창에 띄워질 초기수치
-            Player = new Player():
+            player = new Player("B04", "전사", 01, 10, 5, 100, 2000); //상태창에 띄워질 초기수치
             BattleStart = new BattleStart();
         }
 
@@ -68,33 +67,33 @@ namespace B04Project
             MainMenu();
         }
 
-        //public void StatusMenu()
-        //{
-        //    Console.Clear();
-        //    ConsoleUtility.ShowTitle("■ 상태보기 ■");
-        //    Console.WriteLine("캐릭터의 정보가 표시됩니다.");
+        public void StatusMenu()
+        {
+            Console.Clear();
+            ConsoleUtility.ShowTitle("■ 상태보기 ■");
+            Console.WriteLine("캐릭터의 정보가 표시됩니다.");
 
-        //    Console.WriteLine($"Lv. {player.Lv}");
-        //    Console.WriteLine($"Chad ( {player.Chad} )");
-        //    Console.WriteLine($"공격력 : {player.Atk}");
-        //    Console.WriteLine($"방어력 : {player.Def}");
-        //    Console.WriteLine($"체  력 : {player.Hp}");
+            Console.WriteLine($"Lv. {player.Lv}");
+            Console.WriteLine($"Chad ( {player.Chad} )");
+            Console.WriteLine($"공격력 : {player.Atk}");
+            Console.WriteLine($"방어력 : {player.Def}");
+            Console.WriteLine($"체  력 : {player.Hp}");
 
-        //    Console.WriteLine($"Gold : {player.Gold} G");
-        //    Console.WriteLine("");
+            Console.WriteLine($"Gold : {player.Gold} G");
+            Console.WriteLine("");
 
-        //    Console.WriteLine("0. 나가기");
-        //    Console.WriteLine("");
-        //    Console.WriteLine("원하시는 행동을 입력해주세요.");
-        //    Console.Write(">>");
+            Console.WriteLine("0. 나가기");
+            Console.WriteLine("");
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+            Console.Write(">>");
 
-        //    switch (ConsoleUtility.PromptMenuChoice (0, 0))
-        //    {
-        //        case 0:
-        //            MainMenu();
-        //            break;
-        //    }
-        //}
+            switch (ConsoleUtility.PromptMenuChoice(0, 0))
+            {
+                case 0:
+                    MainMenu();
+                    break;
+            }
+        }
     }
     internal class Program
     {

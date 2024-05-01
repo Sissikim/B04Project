@@ -101,7 +101,7 @@ namespace B04Project
                 enemyList[i].Level = renLevel + 1; //몹랩에 랜덤
                 enemyList[i].MonHP += enemyList[i].Level * 5; //몹랩당 체력 5 추가
                 enemyList[i].MonPower += enemyList[i].Level; //몹랩당 공격력 1추가
-                Console.WriteLine($"Lv.{enemyList[i].Level} {enemyList[i].MonName}"); //battleMonList 확인용
+                Console.WriteLine($"Lv.{enemyList[i].Level}"  + ConsoleColors.Red + enemyList[i].MonName + ConsoleColors.Reset); //battleMonList 확인용
             }
             return enemyList;
         }
@@ -113,7 +113,7 @@ namespace B04Project
 
                 Console.WriteLine($"[{i + 1}] Lv.{enemyList[i].Level} {enemyList[i].MonName} | 체력: {monHp} | 공격력: {enemyList[i].MonPower}");
             }
-            //string action = Console.ReadLine();
+            string action = Console.ReadLine();
         }
     }
 }
