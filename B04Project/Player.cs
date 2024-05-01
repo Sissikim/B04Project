@@ -20,5 +20,7 @@
             Hp = hp;
             Gold = gold;
         }
+
+        
     }
 }

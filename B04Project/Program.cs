@@ -7,8 +7,8 @@ namespace B04Project
     public class GameManager
     {
         private Player player;
-        static MonsterManager monsterManager;
         static ItemManager itemManager;
+        static BattleStart battleStart;
 
         public GameManager()
         {
@@ -17,9 +17,10 @@ namespace B04Project
 
         private void InitializeGame()
         {
-            player = new Player("B04", "전사", 01, 10, 5, 100, 2000); //상태창에 띄워질 초기수치
-            monsterManager = new MonsterManager(); //몬스터매니저 생성자
+            player = new Player("B04", "전사", 01, 10, 5, 100, 2000); //상태창에 띄워질 초기수치            
             itemManager= new ItemManager(); //아이템매니저 생성자
+            battleStart= new BattleStart();
+
         }
 
         public void StartGame()
@@ -29,28 +30,30 @@ namespace B04Project
             MainMenu();            
         }
 
-        private void MainMenu()
+        public void MainMenu()
         {
             itemManager.MyInventory();
             Console.Clear();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");
             Console.WriteLine("");
-            Console.WriteLine("1. 상태 보기\n2. 전투 시작\n");
+            Console.WriteLine("1. 상태 보기\n2. 전투 시작\n3. 인벤토리\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
 
-            int choice = ConsoleUtility.PromptMenuChoice(1, 2);
+            int choice = ConsoleUtility.PromptMenuChoice(1, 3);
             switch (choice)
             {
                 case 1:
                     StatusMenu();
                     break;
                 case 2:
-                    Battle();
+                    battleStart.Battle();
                     break;
-            }
-            //MainMenu();
+                case 3:
+                    Inventory();
+                    break;
+            }            
         }
 
         private void StatusMenu()
@@ -80,42 +83,27 @@ namespace B04Project
                     MainMenu();
                     break;
             }
-        }
-
-        private void Battle()
+        }          
+        public void Inventory()
         {
             Console.Clear();
-            ConsoleUtility.ShowTitle(" Battle! ");
-
-            monsterManager.BattleMonsterMake();
+            ConsoleUtility.ShowTitle("■ 인벤토리 ■");
             Console.WriteLine("");
-            Console.WriteLine("1. 공격하기\n0. 도망치기");
+            itemManager.SetMyInventory();
+            Console.WriteLine("");
+            Console.WriteLine("1. 착용하기\n0. 도망치기");
 
             switch (ConsoleUtility.PromptMenuChoice(0, 1))
             {
                 case 0:
                     MainMenu();
                     break;
-                    case 1:
+                case 1:
                     Console.Clear();
-                    Battlesin();
+                    itemManager.SetEquipmenty();
+                    itemManager.MyInventory();//장비장착으로 아이템정보값 변경.>> 다시호출 아이템리스트 갱신
+                    // 아이템으로 인한 플레이어 능력치 또한 변경되니 요기서 호출해서 갱신
                     break;
-            }
-        }
-
-        public void Battlesin()
-        {
-            ConsoleUtility.ShowTitle(" Battle! ");
-            monsterManager.SetMonster();
-            Console.WriteLine("");
-            itemManager.SetMyInventory();
-            Console.WriteLine("");
-
-            switch (ConsoleUtility.PromptMenuChoice(0, 0))
-            {
-                case 0:
-                    MainMenu();
-                    break;                
             }
         }
 

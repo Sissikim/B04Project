@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -150,18 +151,17 @@ namespace B04Project
         {  
             myList.Clear(); //초기화 (사실 왜 하는진 모름.)
             for (int i = 0; i < itemList.Count; i++)
-            {
-                 
+            {                 
                 if (itemList[i].IsBuy)  //구매한 아이템 이라면
                 {
-                    Item myItem = new Item(itemList[i]); //해당아이템 복사                    
-                    myList.Add(myItem); 
-                }                
+                    Item myItem = new Item(itemList[i]); //해당아이템 복사
+                    myList.Add(myItem);
+                }
             }
             //for (int i = 0; i < myList.Count; i++)
             //{
             //    Console.WriteLine($"{myList[i].Name}"); //MyInventoryMake 확인용
-            //}            
+            //}
         }
         public void SetMyInventory() //내인벤토리 표시
         {
@@ -169,30 +169,82 @@ namespace B04Project
             {
                 string isEquipment = myList[i].IsEquipment ? "E" : "X"; //착용된 장비면 "E" 아니면 "X"
                 if (myList[i].Equipment == "무역") // 장비군이 무역탬이면 [강화,공격력,착용여부 등 표시 할 필요 없어서]
-                { Console.WriteLine($"{i + 1}. {myList[i].Name}| {myList[i].Equipment} | {myList[i].Info} | {myList[i].Price}G"); }
+                { Console.WriteLine($"{myList[i].Name}| {myList[i].Equipment} | {myList[i].Info} | {myList[i].Price}G"); }
                 else if (myList[i].Equipment == "소모") //장비군이 소모탬이면 [강화,착용여부 등 표시 할 필요 없어서]
-                { Console.WriteLine($"{i + 1}. {myList[i].Name}| {myList[i].Equipment} | {myList[i].Info} | ({myList[i].ItemCarry}/{myList[i].MaxItemCarry})"); }
+                { Console.WriteLine($"{myList[i].Name}| {myList[i].Equipment} | {myList[i].Info} | ({myList[i].ItemCarry}/{myList[i].MaxItemCarry})"); }
                 else //장비라면 
                 { Console.WriteLine($"[{isEquipment}]{myList[i].Name}+{myList[i].Level}강 | {myList[i].Equipment} | {myList[i].Type} +{myList[i].ItemValue} | {myList[i].Info}"); }
-            } 
+            }
         }
-        public void ViewShop() 
+        public void SetEquipmenty() //장비 착용부
         {
-            for (int i = 0; i < itemList.Count; i++) 
+            while (true)
             {
-                string isBuy= itemList[i].IsBuy? "구매함": itemList[i].Price.ToString()+"G";
-                
-                if (myList[i].Equipment == "무역") 
-                { Console.WriteLine($"{i + 1}. {itemList[i].Name}| {itemList[i].Equipment} | {itemList[i].Info} | {isBuy}"); }
-                else if (myList[i].Equipment == "소모") 
+                Console.WriteLine("장착관리 ");
+                for (int i = 0; i < myList.Count; i++)
                 {
-                    string maxCarry; 
+                    string isEquipment = myList[i].IsEquipment ? "E" : "X"; //착용된 장비면 "E" 아니면 "X"
+                    if (myList[i].Equipment == "무기" || myList[i].Equipment == "장비")
+                    { Console.WriteLine($"{i + 1}. [{isEquipment}]{myList[i].Name}+{myList[i].Level}강 | {myList[i].Equipment} | {myList[i].Type} +{myList[i].ItemValue} | {myList[i].Info}"); }
+                }
+
+                Console.WriteLine("");
+                Console.WriteLine("0. 나가기");
+                Console.Write(">>");
+
+                int choice = int.Parse(Console.ReadLine());
+                Console.Clear();
+                if (choice == 0)
+                {  
+                    break;
+                }
+
+                myList[choice - 1].IsEquipment = !myList[choice - 1].IsEquipment; //선택장비 착용
+
+                foreach (Item i in myList) //리스트내에 모든 Item 자료를 i로 불러온다
+                {
+                    if (myList[choice - 1] != i) //선택장비와 같은것 열외
+                    {
+                        if (myList[choice - 1].Equipment == i.Equipment) //같은종류의 장비중에
+                        {
+                            if (myList[choice - 1].IsEquipment) //선택장비 착용이 되엇으면 [단순 벗기할때 감지]
+                            {
+                                if (i.IsEquipment) //다른장비가 착용중 이라면
+                                {
+                                    i.IsEquipment = false; // 그 다른장비는 벗기
+                                } //중복착용 방지
+                            }
+                        }
+                    }
+                }                
+            }
+        }
+
+        public void SetPotion() //내포션
+        {
+            for (int i = 0; i < myList.Count; i++)
+            {
+                if (myList[i].Equipment == "소모") //장비군이 소모탬이면 [강화,착용여부 등 표시 할 필요 없어서]
+                { Console.WriteLine($"{myList[i].Name}| {myList[i].Equipment} | {myList[i].Info} | ({myList[i].ItemCarry}/{myList[i].MaxItemCarry})"); }
+            }
+        }
+        public void ViewShop()
+        {
+            for (int i = 0; i < itemList.Count; i++)
+            {
+                string isBuy = itemList[i].IsBuy ? "구매함" : itemList[i].Price.ToString() + "G";
+
+                if (myList[i].Equipment == "무역")
+                { Console.WriteLine($"{i + 1}. {itemList[i].Name}| {itemList[i].Equipment} | {itemList[i].Info} | {isBuy}"); }
+                else if (myList[i].Equipment == "소모")
+                {
+                    string maxCarry;
                     if (itemList[i].ItemCarry == itemList[i].MaxItemCarry) { maxCarry = "가득참"; } //포션을 최대수랑까지 구매햇다면 maxCarry = "가득참"
                     else { maxCarry = itemList[i].Price.ToString(); }
-                    Console.WriteLine($"{i + 1}. {itemList[i].Name}| {itemList[i].Equipment} | {itemList[i].Info} | ({itemList[i].ItemCarry}/{itemList[i].MaxItemCarry} | {maxCarry})"); 
+                    Console.WriteLine($"{i + 1}. {itemList[i].Name}| {itemList[i].Equipment} | {itemList[i].Info} | ({itemList[i].ItemCarry}/{itemList[i].MaxItemCarry} | {maxCarry})");
                 }
                 else //장비라면 
-                { Console.WriteLine($"{i + 1}. {myList[i].Name}+{myList[i].Level}강 | {myList[i].Equipment} | {myList[i].Type} +{myList[i].ItemValue} | {myList[i].Info} | {isBuy}");}
+                { Console.WriteLine($"{i + 1}. {myList[i].Name}+{myList[i].Level}강 | {myList[i].Equipment} | {myList[i].Type} +{myList[i].ItemValue} | {myList[i].Info} | {isBuy}"); }
             }
         }
     }
