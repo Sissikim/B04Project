@@ -8,7 +8,7 @@ namespace B04Project
     public class GameManager
     {
         private Player player;
-        static MonsterManager monsterManager;
+        //static MonsterManager monsterManager;
         static BattleStart BattleStart;
 
         public GameManager()
@@ -29,7 +29,7 @@ namespace B04Project
             MainMenu();
         }
 
-        private void MainMenu()
+        public void MainMenu()
         {
             Console.Clear();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
