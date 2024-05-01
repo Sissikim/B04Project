@@ -16,21 +16,21 @@
 </br>2024년 4월 29일 ~ 2024년 5월 7일
 </br></br>
 **팀원 소개**
-</br>박준서 (팀장)</br>
+</br></br>박준서 (팀장)</br>
 </br>GITHUB : https://github.com/maple-rain
 </br>블로그 : https://maple-rain.tistory.com/
-</br>김은오 (팀원)</br>
+</br></br>김은오 (팀원)</br>
 </br>GITHUB : https://github.com/Sissikim
 </br>블로그 : https://velog.io/@nene/posts
-</br>김강은 (팀원)</br>
+</br></br>김강은 (팀원)</br>
 </br>GITHUB : https://github.com/J-Kaun
 </br>블로그 : https://www.notion.so/Kaun-Space-36257a127dec4bd99b65a053d02355df?pvs=4
-</br>이정호 (팀원)</br>
+</br></br>이정호 (팀원)</br>
 </br>GITHUB : https://github.com/roekdk
 </br>블로그 : https://velog.io/@leejungho/posts
 </br>
-</br>
-</br>**맡은 역할**
+</br></br>
+__맡은 역할__
 </br>
 </br>박준서
 </br>
