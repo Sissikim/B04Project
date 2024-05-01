@@ -1,5 +1,5 @@
-                                                            Sparta Text RPG
-                                                           우린 돈으로 게임한다
+                                                    Sparta Text RPG
+                                                   우린 돈으로 게임한다
 
  
 ![dohwa](https://github.com/Sissikim/B04Project/assets/167044387/7209a90a-4df2-4e74-8831-07f44663f2d9)
