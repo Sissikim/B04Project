@@ -1,4 +1,6 @@
 ﻿
+using System;
+using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 
 namespace B04Project
@@ -6,9 +8,9 @@ namespace B04Project
 
     public class GameManager
     {
-        private Player player;
+        static PlayerManager player;
         static ItemManager itemManager;
-        static BattleStart battleStart;        
+        static BattleStart battleStart;
 
         public GameManager()
         {
@@ -17,7 +19,7 @@ namespace B04Project
 
         private void InitializeGame()
         {
-            player = new Player("B04", "전사", 01, 10, 5, 100, 2000); //상태창에 띄워질 초기수치              
+            player = new PlayerManager();
             battleStart = new BattleStart();
             itemManager = new ItemManager(); //아이템매니저 생성자    
         }
@@ -26,7 +28,11 @@ namespace B04Project
         {
             Console.Clear();
             ConsoleUtility.PrintGameHeader();
-            MainMenu();            
+            player.NameChoice();
+            player.JobChoice();
+            Console.WriteLine("진행하시려면 아무키나 누르세요");
+            Console.ReadKey(); //아무키나 누르세요 같은거임.
+            MainMenu();
         }
 
         public void MainMenu()
@@ -63,16 +69,18 @@ namespace B04Project
             Console.Clear();
             ConsoleUtility.ShowTitle("■ 상태보기 ■");
             Console.WriteLine("캐릭터의 정보가 표시됩니다.");
-
-            Console.WriteLine($"Lv. {player.Lv}");
-            Console.WriteLine($"Chad ( {player.Chad} )");
-            Console.WriteLine($"공격력 : {player.Atk}");
-            Console.WriteLine($"방어력 : {player.Def}");
-            Console.WriteLine($"체  력 : {player.Hp}");
-
-            Console.WriteLine($"Gold : {player.Gold} G");
             Console.WriteLine("");
-            
+            Console.WriteLine($"Lv. {player.statusList[0].Level}");
+            Console.WriteLine($"이  름 : {player.statusList[0].Name}");
+            Console.WriteLine($"Chad ( {player.statusList[0].Chad} )");
+            Console.WriteLine($"체  력 : {player.statusList[0].Hp} / {player.statusList[0].MaxHp}");
+            Console.WriteLine($"마  력 : {player.statusList[0].Mp} / {player.statusList[0].MaxMp}");
+            Console.WriteLine("=============================");
+            Console.WriteLine($"공격력 : {player.statusList[0].Atk} +{player.statusList[0].TemAtk}");
+            Console.WriteLine($"방어력 :  {player.statusList[0].Def} +{player.statusList[0].TemDef}");
+            Console.WriteLine("");
+            Console.WriteLine($"Gold : {player.statusList[0].Gold} G");
+            Console.WriteLine("");
             Console.WriteLine("");
             Console.WriteLine("0. 나가기");
             Console.WriteLine("");
@@ -85,7 +93,7 @@ namespace B04Project
                     MainMenu();
                     break;
             }
-        }          
+        }
         public void Inventory()
         {
             Console.Clear();
@@ -138,7 +146,6 @@ namespace B04Project
                 }
             }
         }
-
     }
     internal class Program
     {

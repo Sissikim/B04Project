@@ -224,7 +224,6 @@ namespace B04Project
                 }
             }
         }
-
         public void SetPotion() //내포션
         {
             int j = 1;
