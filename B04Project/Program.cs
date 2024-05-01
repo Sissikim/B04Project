@@ -16,7 +16,7 @@ namespace B04Project
             InitializeGame(); //게임 초기설정
         }
 
-        private void InitializeGame()
+        public void InitializeGame()
         {
             player = new Player("B04", "전사", 01, 10, 5, 100, 2000); //상태창에 띄워질 초기수치
             BattleStart = new BattleStart();
@@ -52,7 +52,7 @@ namespace B04Project
             MainMenu();
         }
 
-        private void StatusMenu()
+        public void StatusMenu()
         {
             Console.Clear();
             ConsoleUtility.ShowTitle("■ 상태보기 ■");
