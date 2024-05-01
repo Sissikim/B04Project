@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace B04Project
 {
+    
     public class Monster
     {
         public int level;
@@ -13,7 +14,7 @@ namespace B04Project
         private int monHP;
         private int monPower;
         private bool isDead;
-
+        
         public Monster(int _level, string _monName, int _monHP, int _monPower, bool _isDead)
         {
             level = _level; //렙
@@ -29,6 +30,7 @@ namespace B04Project
             monHP = monster.monHP; //체력
             monPower = monster.monPower; // 공격력
             isDead = monster.isDead; //생존 여부
+            
         }
 
         public int Level
@@ -68,6 +70,7 @@ namespace B04Project
     }
     public class MonsterManager
     {
+        
         public List<Monster> monList; //전체 몬스터 리스트
         public List<Monster> enemyList; //전투 참여 몬스터 리스트
         public MonsterManager() //전체 몬스터
@@ -75,17 +78,17 @@ namespace B04Project
             monList = new List<Monster>();
             enemyList = new List<Monster>();
 
-            monList.Add(new Monster(1, "공허충", 30, 5, false));
-            monList.Add(new Monster(1, "미니언", 30, 5, false));
-            monList.Add(new Monster(1, "대포미니언", 30, 5, false));
-            monList.Add(new Monster(1, "미니언2", 30, 5, false));
+            monList.Add(new Monster(1, "공허충", 10, 3, false));
+            monList.Add(new Monster(1, "미니언", 15, 5, false));
+            monList.Add(new Monster(1, "대포미니언", 25, 8, false));
+            monList.Add(new Monster(1, "슈퍼미니언", 50, 12, false));
         }
-        public void BattleMonsterMake() //전투에 쓰일 몬스터 가져오기 
+        public List<Monster> BattleMonsterMake() //전투에 쓰일 몬스터 가져오기 
         {
             int listCount = new Random().Next(0, 4); //등장수 1~4
             int random; //같은 몹도 나올수 잇게 하기 위함
             int renLevel; //몹랩에 랜덤
-
+           
             enemyList.Clear();
             for (int i = 0; i <= listCount; i++)
             {
@@ -98,8 +101,9 @@ namespace B04Project
                 enemyList[i].Level = renLevel+1; //몹랩에 랜덤
                 enemyList[i].MonHP += enemyList[i].Level * 5; //몹랩당 체력 5 추가
                 enemyList[i].MonPower += enemyList[i].Level; //몹랩당 공격력 1추가
-                Console.WriteLine($"Lv[{enemyList[i].Level}]{enemyList[i].MonName}"); //battleMonList 확인용
+                Console.WriteLine($"Lv[{enemyList[i].Level}]" + "{" + ConsoleColors.Red + enemyList[i].MonName + ConsoleColors.Reset + "}"  ); //battleMonList 확인용
             }
+            return enemyList;
         }
         public void SetMonster()
         {

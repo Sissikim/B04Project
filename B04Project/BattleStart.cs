@@ -10,8 +10,8 @@ namespace B04Project
     internal class BattleStart
     {
         static MonsterManager monsterManager = new MonsterManager();
-        
 
+       
 
         public void Battle()
         {

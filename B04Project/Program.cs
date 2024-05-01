@@ -4,13 +4,24 @@ using B04Project;
 
 namespace B04Project
 {
-
+    public static class ConsoleColors
+    {
+        public const string Reset = "\x1b[0m";
+        public const string Black = "\x1b[30m";
+        public const string Red = "\x1b[31m";
+        public const string Green = "\x1b[32m";
+        public const string Yellow = "\x1b[33m";
+        public const string Blue = "\x1b[34m";
+        public const string Purple = "\x1b[35m";
+        public const string Cyan = "\x1b[36m";
+        public const string White = "\x1b[37m";
+    }
     public class GameManager
     {
         private Player player;
         static MonsterManager monsterManager;
         static BattleStart BattleStart;
-
+        
         public GameManager()
         {
             InitializeGame(); //게임 초기설정
@@ -27,14 +38,18 @@ namespace B04Project
             Console.Clear();
             ConsoleUtility.PrintGameHeader();
             MainMenu();
+            
         }
 
         private void MainMenu()
         {
             Console.Clear();
+            Console.WriteLine(ConsoleColors.Purple);
+            Console.WriteLine("\r\n                                                                                                                                                           \r\n                                                                                                                                                           \r\n  .--.--.                                     ___                            ,---,                                                                         \r\n /  /    '. ,-.----.                        ,--.'|_                        .'  .' `\\                                                                       \r\n|  :  /`. / \\    /  \\              __  ,-.  |  | :,'                     ,---.'     \\          ,--,      ,---,                         ,---.        ,---,  \r\n;  |  |--`  |   :    |           ,' ,'/ /|  :  : ' :                     |   |  .`\\  |       ,'_ /|  ,-+-. /  |  ,----._,.            '   ,'\\   ,-+-. /  | \r\n|  :  ;_    |   | .\\ :  ,--.--.  '  | |' |.;__,'  /    ,--.--.           :   : |  '  |  .--. |  | : ,--.'|'   | /   /  ' /   ,---.   /   /   | ,--.'|'   | \r\n \\  \\    `. .   : |: | /       \\ |  |   ,'|  |   |    /       \\          |   ' '  ;  :,'_ /| :  . ||   |  ,\"' ||   :     |  /     \\ .   ; ,. :|   |  ,\"' | \r\n  `----.   \\|   |  \\ :.--.  .-. |'  :  /  :__,'| :   .--.  .-. |         '   | ;  .  ||  ' | |  . .|   | /  | ||   | .\\  . /    /  |'   | |: :|   | /  | | \r\n  __ \\  \\  ||   : .  | \\__\\/: . .|  | '     '  : |__  \\__\\/: . .         |   | :  |  '|  | ' |  | ||   | |  | |.   ; ';  |.    ' / |'   | .; :|   | |  | | \r\n /  /`--'  /:     |`-' ,\" .--.; |;  : |     |  | '.'| ,\" .--.; |         '   : | /  ; :  | : ;  ; ||   | |  |/ '   .   . |'   ;   /||   :    ||   | |  |/  \r\n'--'.     / :   : :   /  /  ,.  ||  , ;     ;  :    ;/  /  ,.  |         |   | '` ,/  '  :  `--'   \\   | |--'   `---`-'| |'   |  / | \\   \\  / |   | |--'   \r\n  `--'---'  |   | :  ;  :   .'   \\---'      |  ,   /;  :   .'   \\        ;   :  .'    :  ,      .-./   |/       .'__/\\_: ||   :    |  `----'  |   |/       \r\n            `---'.|  |  ,     .-./           ---`-' |  ,     .-./        |   ,.'       `--`----'   '---'        |   :    : \\   \\  /           '---'        \r\n              `---`   `--`---'                       `--`---'            '---'                                   \\   \\  /   `----'                         \r\n                                                                                                                  `--`-'                                   \r\n");
+            Console.WriteLine(ConsoleColors.Reset);
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");
-            Console.WriteLine("");
+            Console.WriteLine();
             Console.WriteLine("1. 상태 보기\n2. 전투 시작\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
