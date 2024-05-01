@@ -9,10 +9,10 @@ namespace B04Project
     public class Monster
     {
         public int level;
-        private string monName;
-        private int monHP;
-        private int monPower;
-        private bool isDead;
+        public string monName;
+        public int monHP;
+        public int monPower;
+        public bool isDead;
 
         public Monster(int _level, string _monName, int _monHP, int _monPower, bool _isDead)
         {
@@ -66,50 +66,50 @@ namespace B04Project
             return isDead;
         }
     }
-    public class MonsterManager
-    {
-        public List<Monster> monList; //전체 몬스터 리스트
-        public List<Monster> enemyList; //전투 참여 몬스터 리스트
-        public MonsterManager() //전체 몬스터
-        {
-            monList = new List<Monster>();
-            enemyList = new List<Monster>();
+    //public class MonsterManager
+    //{
+    //    public List<Monster> monList; //전체 몬스터 리스트
+    //    public List<Monster> enemyList; //전투 참여 몬스터 리스트
+    //    public MonsterManager() //전체 몬스터
+    //    {
+    //        monList = new List<Monster>();
+    //        enemyList = new List<Monster>();
 
-            monList.Add(new Monster(1, "공허충", 30, 5, false));
-            monList.Add(new Monster(1, "미니언", 30, 5, false));
-            monList.Add(new Monster(1, "대포미니언", 30, 5, false));
-            monList.Add(new Monster(1, "미니언2", 30, 5, false));
-        }
-        public void BattleMonsterMake() //전투에 쓰일 몬스터 가져오기 
-        {
-            int listCount = new Random().Next(0, 4); //등장수 1~4
-            int random; //같은 몹도 나올수 잇게 하기 위함
-            int renLevel; //몹랩에 랜덤
+    //        monList.Add(new Monster(1, "공허충", 30, 5, false));
+    //        monList.Add(new Monster(1, "미니언", 30, 5, false));
+    //        monList.Add(new Monster(1, "대포미니언", 30, 5, false));
+    //        monList.Add(new Monster(1, "미니언2", 30, 5, false));
+    //    }
+    //    public void BattleMonsterMake() //전투에 쓰일 몬스터 가져오기 
+    //    {
+    //        int listCount = new Random().Next(0, 4); //등장수 1~4
+    //        int random; //같은 몹도 나올수 잇게 하기 위함
+    //        int renLevel; //몹랩에 랜덤
 
-            enemyList.Clear();
-            for (int i = 0; i <= listCount; i++)
-            {
-                random = new Random().Next(0, monList.Count); //전체 몬스터수
-                renLevel = new Random().Next(0, 4); //몹랩 랜덤레벨 (Max 4) 
+    //        enemyList.Clear();
+    //        for (int i = 0; i <= listCount; i++)
+    //        {
+    //            random = new Random().Next(0, monList.Count); //전체 몬스터수
+    //            renLevel = new Random().Next(0, 4); //몹랩 랜덤레벨 (Max 4) 
 
-                Monster enemy = new Monster(monList[random]);
+    //            Monster enemy = new Monster(monList[random]);
 
-                enemyList.Add(enemy); //같은 몹도 나올수 잇게 하기 위함
-                enemyList[i].Level = renLevel+1; //몹랩에 랜덤
-                enemyList[i].MonHP += enemyList[i].Level * 5; //몹랩당 체력 5 추가
-                enemyList[i].MonPower += enemyList[i].Level; //몹랩당 공격력 1추가
-                Console.WriteLine($"Lv[{enemyList[i].Level}]{enemyList[i].MonName}"); //battleMonList 확인용
-            }
-        }
-        public void SetMonster()
-        {
-            for (int i = 0; i < enemyList.Count; i++)
-            {
-                string monHp = enemyList[i].IsDead ? "dead" : enemyList[i].MonHP.ToString(); //몹 체력이 0이면 "dead"표기
+    //            enemyList.Add(enemy); //같은 몹도 나올수 잇게 하기 위함
+    //            enemyList[i].Level = renLevel+1; //몹랩에 랜덤
+    //            enemyList[i].MonHP += enemyList[i].Level * 5; //몹랩당 체력 5 추가
+    //            enemyList[i].MonPower += enemyList[i].Level; //몹랩당 공격력 1추가
+    //            Console.WriteLine($"Lv[{enemyList[i].Level}]{enemyList[i].MonName}"); //battleMonList 확인용
+    //        }
+    //    }
+    //    public void SetMonster()
+    //    {
+    //        for (int i = 0; i < enemyList.Count; i++)
+    //        {
+    //            string monHp = enemyList[i].IsDead ? "dead" : enemyList[i].MonHP.ToString(); //몹 체력이 0이면 "dead"표기
 
-                Console.WriteLine($"{i + 1}. Lv[{enemyList[i].Level}]{enemyList[i].MonName} | 체력: {monHp} | 공격력: {enemyList[i].MonPower}");
-            }
-            string action = Console.ReadLine();
-        }
-    }
+    //            Console.WriteLine($"{i + 1}. Lv[{enemyList[i].Level}]{enemyList[i].MonName} | 체력: {monHp} | 공격력: {enemyList[i].MonPower}");
+    //        }
+    //        //string action = Console.ReadLine();
+    //    }
+    //}
 }
