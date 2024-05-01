@@ -1,5 +1,5 @@
                                              Sparta Text RPG
-                                            우린 돈으로 게임한다
+                                            
 
  
 ![dohwa](https://github.com/Sissikim/B04Project/assets/167044387/7209a90a-4df2-4e74-8831-07f44663f2d9)
@@ -48,16 +48,10 @@
 __맡은 역할__
 </br></br>
 #### 박준서 #####
-
-박준서서윗 담당 ❤️‍🔥
-</br>
 ReadMe 작성
 </br></br>
 
 #### 김은오 #####
-
-Docs 작성 장인✍
-</br>
 스타트 화면 제작
 </br>
 UML 작성
@@ -66,9 +60,6 @@ Status 제작
 </br></br>
 
 #### 김강은 #####
-
-메이플스토리 장인🍄
-</br>
 Battle 메서드 제작
 </br>
 플레이어 공격 기능 제작
@@ -79,7 +70,4 @@ enemy phase 제작
 </br></br>
 
 #### 이정호 #####
-
-튜터님께 질문 제일 많이한 조원🙋‍♂️
-</br>
 Monster list 제작
