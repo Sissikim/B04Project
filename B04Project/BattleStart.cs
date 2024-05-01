@@ -11,7 +11,7 @@ namespace B04Project
     {
         static MonsterManager monsterManager = new MonsterManager();
         static GameManager gameManager = new GameManager();
-        static ItemManager itemManager = new ItemManager(); //아이템매니저 생성자        
+        static ItemManager itemManager = new ItemManager(); //아이템매니저 생성자
 
         public void Battle()
         {
@@ -58,7 +58,7 @@ namespace B04Project
                         Attack();
                         break;
                     case 2:
-                        UsePotion();
+                        BattleUsePotion();
                         break;
                 }
             }
@@ -108,9 +108,31 @@ namespace B04Project
             }
             // MonsterAttack();   //적공격턴
         }
-        public void UsePotion()
-        {
-
+        public void BattleUsePotion() //전투중 포션사용
+        {            
+            Console.WriteLine("\n사용할 포션을 선택해주세요.");
+            Console.Write(">>");
+            switch (ConsoleUtility.PromptMenuChoice(1, 6)) //스위치 괄호 뒷부분 이해를 못해서 포션총갯수 6으로 넣음
+            {
+                case 1:
+                    itemManager.UsePotion(1);
+                    break;
+                case 2:
+                    itemManager.UsePotion(2);
+                    break;
+                case 3:
+                    itemManager.UsePotion(3);
+                    break;
+                case 4:
+                    itemManager.UsePotion(4);
+                    break;
+                case 5:
+                    itemManager.UsePotion(5);
+                    break;
+                case 6:
+                    itemManager.UsePotion(6);
+                    break;
+            }
         }
 
         public void MonsterAttack()
