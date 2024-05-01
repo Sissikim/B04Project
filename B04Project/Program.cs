@@ -8,6 +8,7 @@ namespace B04Project
     {
         private Player player;
         static MonsterManager monsterManager;
+        static ItemManager itemManager;
 
         public GameManager()
         {
@@ -18,17 +19,19 @@ namespace B04Project
         {
             player = new Player("B04", "전사", 01, 10, 5, 100, 2000); //상태창에 띄워질 초기수치
             monsterManager = new MonsterManager(); //몬스터매니저 생성자
+            itemManager= new ItemManager(); //아이템매니저 생성자
         }
 
         public void StartGame()
         {
             Console.Clear();
             ConsoleUtility.PrintGameHeader();
-            MainMenu();
+            MainMenu();            
         }
 
         private void MainMenu()
         {
+            itemManager.MyInventory();
             Console.Clear();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");
@@ -47,7 +50,7 @@ namespace B04Project
                     Battle();
                     break;
             }
-            MainMenu();
+            //MainMenu();
         }
 
         private void StatusMenu()
@@ -64,7 +67,8 @@ namespace B04Project
 
             Console.WriteLine($"Gold : {player.Gold} G");
             Console.WriteLine("");
-
+            
+            Console.WriteLine("");
             Console.WriteLine("0. 나가기");
             Console.WriteLine("");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
@@ -87,12 +91,32 @@ namespace B04Project
             Console.WriteLine("");
             Console.WriteLine("1. 공격하기\n0. 도망치기");
 
+            switch (ConsoleUtility.PromptMenuChoice(0, 1))
+            {
+                case 0:
+                    MainMenu();
+                    break;
+                    case 1:
+                    Console.Clear();
+                    Battlesin();
+                    break;
+            }
         }
 
         public void Battlesin()
         {
             ConsoleUtility.ShowTitle(" Battle! ");
             monsterManager.SetMonster();
+            Console.WriteLine("");
+            itemManager.SetMyInventory();
+            Console.WriteLine("");
+
+            switch (ConsoleUtility.PromptMenuChoice(0, 0))
+            {
+                case 0:
+                    MainMenu();
+                    break;                
+            }
         }
 
     }

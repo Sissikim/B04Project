@@ -108,8 +108,7 @@ namespace B04Project
                 string monHp = enemyList[i].IsDead ? "dead" : enemyList[i].MonHP.ToString(); //몹 체력이 0이면 "dead"표기
 
                 Console.WriteLine($"{i + 1}. Lv[{enemyList[i].Level}]{enemyList[i].MonName} | 체력: {monHp} | 공격력: {enemyList[i].MonPower}");
-            }
-            string action = Console.ReadLine();
+            }            
         }
     }
 }
