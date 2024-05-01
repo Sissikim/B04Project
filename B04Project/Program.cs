@@ -1,5 +1,6 @@
 ﻿
 using System.Security.Cryptography.X509Certificates;
+using B04Project;
 
 namespace B04Project
 {
@@ -8,6 +9,7 @@ namespace B04Project
     {
         private Player player;
         static MonsterManager monsterManager;
+        static BattleStart BattleStart;
 
         public GameManager()
         {
@@ -17,7 +19,7 @@ namespace B04Project
         private void InitializeGame()
         {
             player = new Player("B04", "전사", 01, 10, 5, 100, 2000); //상태창에 띄워질 초기수치
-            monsterManager = new MonsterManager(); //몬스터매니저 생성자
+            BattleStart = new BattleStart();
         }
 
         public void StartGame()
@@ -44,7 +46,7 @@ namespace B04Project
                     StatusMenu();
                     break;
                 case 2:
-                    Battle();
+                    BattleStart.Battle();
                     break;
             }
             MainMenu();
@@ -77,24 +79,6 @@ namespace B04Project
                     break;
             }
         }
-
-        private void Battle()
-        {
-            Console.Clear();
-            ConsoleUtility.ShowTitle(" Battle! ");
-
-            monsterManager.BattleMonsterMake();
-            Console.WriteLine("");
-            Console.WriteLine("1. 공격하기\n0. 도망치기");
-
-        }
-
-        public void Battlesin()
-        {
-            ConsoleUtility.ShowTitle(" Battle! ");
-            monsterManager.SetMonster();
-        }
-
     }
     internal class Program
     {
