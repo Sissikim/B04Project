@@ -40,6 +40,7 @@ namespace B04Project
         }
 
         int HitPoint = 100; // player.cs 완성되면 player.Hp 입력
+        int random_attackErrorrange;
 
         public void BattleScene()
         {
@@ -102,11 +103,12 @@ namespace B04Project
             } while (monsterManager.enemyList[choice - 1].IsDead); // 선택된 몬스터가 이미 죽어있는 경우 다시 선택하도록 반복
 
             // 선택된 몬스터에 대한 공격 처리
-            monsterManager.enemyList[choice - 1].MonHP -= 10; // 플레이어 공격력 기입 예정
+            PlayerAttack();
+            monsterManager.enemyList[choice - 1].MonHP -=random_attackErrorrange; // 플레이어 공격력 기입 예정
 
             Console.Write("\nChad의 공격! ");
             Console.Write($"Lv.{monsterManager.enemyList[choice - 1].Level} {monsterManager.enemyList[choice - 1].MonName}을(를) 공격하였습니다. ");
-            Console.Write($"[ 데미지 : 10 ] ");
+            Console.Write($" {random_attackErrorrange} ");
 
             if (monsterManager.enemyList[choice - 1].MonHP > 0)
             {
@@ -180,6 +182,15 @@ namespace B04Project
                         break;
                 }
             }
+        }
+
+        public void PlayerAttack()
+        {
+            int Atk = 13;
+            
+            Random rand = new Random();
+            int error = (int)Math.Ceiling(0.1f * Atk);
+            random_attackErrorrange = rand.Next((Atk - error),(Atk + error - 1));
         }
     }
 }
