@@ -9,7 +9,8 @@ namespace B04Project
     {
         public PlayerManager player;
         public ItemManager itemManager;
-        public BattleStart battleStart;        
+        public BattleStart battleStart;
+        public MonsterManager monsterManager;
 
         public GameManager()
         {
@@ -21,6 +22,7 @@ namespace B04Project
             player = new PlayerManager(this);
             battleStart = new BattleStart(this);            
             itemManager = new ItemManager(this); //아이템매니저 생성자
+            monsterManager = new MonsterManager(this);
         }
 
         public void StartGame()

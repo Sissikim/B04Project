@@ -67,22 +67,24 @@ namespace B04Project
         }
     }
     public class MonsterManager
-    {        
+    {
+        GameManager gameManager;
         public List<Monster> monList; //전체 몬스터 리스트
         public List<Monster> enemyList; //전투 참여 몬스터 리스트
-        public MonsterManager() //전체 몬스터
+        public MonsterManager(GameManager GM)//전체 몬스터
         {            
+            gameManager = GM;
             monList = new List<Monster>();
             enemyList = new List<Monster>();
 
-            monList.Add(new Monster(1, "공허충", 30, 5, false));
-            monList.Add(new Monster(1, "미니언", 30, 5, false));
-            monList.Add(new Monster(1, "대포미니언", 30, 5, false));
-            monList.Add(new Monster(1, "미니언2", 30, 5, false));
+            monList.Add(new Monster(1, "공허충", 30, 50, false));
+            monList.Add(new Monster(1, "미니언", 30, 50, false));
+            monList.Add(new Monster(1, "대포미니언", 30, 50, false));
+            monList.Add(new Monster(1, "미니언2", 30, 50, false));
         }
         public void BattleMonsterMake() //전투에 쓰일 몬스터 가져오기 
         {
-            int listCount = new Random().Next(0, 4); //등장수 1~4
+            int listCount = new Random().Next(0, 4) + gameManager.battleStart.stageLevel; //등장수 1~4 +
             int random; //같은 몹도 나올수 잇게 하기 위함
             int renLevel; //몹랩에 랜덤
 
