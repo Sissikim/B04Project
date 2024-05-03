@@ -94,8 +94,6 @@ namespace B04Project
                         Console.WriteLine("[ Dead ]");
                     }
                     Console.ReadLine();
-                    //Console.Write("\n\n1. 다음으로\n");
-                    //ConsoleUtility.PromptMenuChoice(1, 1);
                     break;
                 case 2:
                     if (monsterManager.enemyList.Count < 2) // 적의수가 2명이 아니면
@@ -122,8 +120,6 @@ namespace B04Project
                             Console.WriteLine("[ Dead ]");
                         }
                         Console.ReadLine();
-                        //Console.Write("\n\n1. 다음으로\n");
-                        //ConsoleUtility.PromptMenuChoice(1, 1);
                         break;
                     }
                 case 3:
@@ -151,8 +147,6 @@ namespace B04Project
                             Console.WriteLine("[ Dead ]");
                         }
                         Console.ReadLine();
-                        //Console.Write("\n\n1. 다음으로\n");
-                        //ConsoleUtility.PromptMenuChoice(1, 1);
                         break;
                     }
                 case 4:
@@ -180,8 +174,6 @@ namespace B04Project
                             Console.WriteLine("[ Dead ]");
                         }
                         Console.ReadLine();
-                        //Console.Write("\n\n1. 다음으로\n");
-                        //ConsoleUtility.PromptMenuChoice(1, 1);
                         break;
                     }
             }
@@ -193,17 +185,18 @@ namespace B04Project
         }
 
         public void MonsterPhase()
-        {
+        {   
             for (int i = 0; i < monsterManager.enemyList.Count; i++)
             {
-                Console.Write($"Lv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName}의 공격! ");
-                Console.Write($"[ 데미지 : {monsterManager.enemyList[i].monPower} ] ");
-                HitPoint -= monsterManager.enemyList[i].monPower; // player.cs 완성되면 player.Hp 입력
+                if (!monsterManager.enemyList[i].IsDead)
+                {
+                    Console.Write($"Lv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName}의 공격! ");
+                    Console.Write($"[ 데미지 : {monsterManager.enemyList[i].monPower} ] ");
+                    HitPoint -= monsterManager.enemyList[i].monPower; // player.cs 완성되면 player.Hp 입력
 
-                Console.WriteLine($"[ Chad의 남은 체력 : {HitPoint} ]"); // player.cs 완성되면 player.Hp 입력
-                Console.ReadLine();
-                //Console.Write("\n\n1. 다음으로\n");
-                //ConsoleUtility.PromptMenuChoice(1, 1);
+                    Console.WriteLine($"[ Chad의 남은 체력 : {HitPoint} ]"); // player.cs 완성되면 player.Hp 입력
+                    Console.ReadLine();
+                }
             }
         }
 
