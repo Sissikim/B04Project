@@ -9,8 +9,7 @@ namespace B04Project
     {
         public PlayerManager player;
         public ItemManager itemManager;
-        public BattleStart battleStart;
-        public MonsterManager monsterManager;
+        public BattleStart battleStart;        
 
         public GameManager()
         {
@@ -20,8 +19,7 @@ namespace B04Project
         private void InitializeGame()
         {
             player = new PlayerManager(this);
-            battleStart = new BattleStart(this);
-            monsterManager = new MonsterManager(this);
+            battleStart = new BattleStart(this);            
             itemManager = new ItemManager(this); //아이템매니저 생성자
         }
 
@@ -46,9 +44,7 @@ namespace B04Project
                 Console.WriteLine("이제 전투를 시작할 수 있습니다.");
                 Console.WriteLine("");
                 Console.WriteLine("1. 상태 보기\n2. 전투 시작\n3. 인벤토리\n4. 상점\n");
-                Console.WriteLine("원하시는 행동을 입력해주세요.");
-                Console.WriteLine($"player.statusList[0].TemAtk = {player.statusList[0].TemAtk}");
-                Console.WriteLine($"itemManager.myList.Count = {itemManager.myList.Count}");
+                Console.WriteLine("원하시는 행동을 입력해주세요.");                
                 Console.Write(">>");
 
                 int choice = ConsoleUtility.PromptMenuChoice(1, 4);

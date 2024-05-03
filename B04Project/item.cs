@@ -129,11 +129,7 @@ namespace B04Project
 
         public List<Item> itemList; //전체 아이템 리스트
         public List<Item> myList; //내 보유한 리스트
-
-        public ItemManager() 
-        { 
-
-        }
+        
         public ItemManager(GameManager GM) //전체 아이템
         {
             gameManager = GM;
