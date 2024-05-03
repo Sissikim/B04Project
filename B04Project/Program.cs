@@ -7,8 +7,8 @@ namespace B04Project
 {    
     public class GameManager
     {
-        static PlayerManager player;
-        static ItemManager itemManager;
+        public static PlayerManager player;
+        //static ItemManager itemManager;
         static BattleStart battleStart;
 
         public GameManager()
@@ -19,19 +19,19 @@ namespace B04Project
         private void InitializeGame()
         {
             player = new PlayerManager();
-            battleStart = new BattleStart();
-            itemManager = new ItemManager(); //아이템매니저 생성자    
+            battleStart = new BattleStart(this);
+            //itemManager = new ItemManager(); //아이템매니저 생성자    
         }
 
         public void StartGame()
         {
             Console.Clear();
             ConsoleUtility.PrintGameHeader();
-            //player.NameChoice();
-            //player.JobChoice();
-            //Console.WriteLine("진행하시려면 아무키나 누르세요");
-            //Console.ReadKey(); //아무키나 누르세요 같은거임.
-            itemManager.MyInventory();
+            player.NameChoice();
+            player.JobChoice();
+            Console.WriteLine("진행하시려면 아무키나 누르세요");
+            Console.ReadKey(); //아무키나 누르세요 같은거임.
+            //itemManager.MyInventory();
             MainMenu();
         }
 
@@ -98,7 +98,7 @@ namespace B04Project
             Console.Clear();
             ConsoleUtility.ShowTitle("■ 인벤토리 ■");
             Console.WriteLine("");
-            itemManager.SetMyInventory();
+            //itemManager.SetMyInventory();
             Console.WriteLine("");
             Console.WriteLine("1. 착용하기\n0. 나가기\n");
             Console.Write(">>");
@@ -110,7 +110,7 @@ namespace B04Project
                     break;
                 case 1:
                     Console.Clear();
-                    itemManager.SetEquipmenty();
+                    //itemManager.SetEquipmenty();
                     //itemManager.MyInventory();//장비장착으로 아이템정보값 변경.>> 다시호출 아이템리스트 갱신
                     // 아이템으로 인한 플레이어 능력치 또한 변경되니 요기서 호출해서 갱신
                     break;
@@ -123,7 +123,7 @@ namespace B04Project
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ 상 점 ■");
                 Console.WriteLine("");
-                itemManager.ViewShop();
+                //itemManager.ViewShop();
                 Console.WriteLine("");
                 Console.WriteLine("1. 구매하기\n2. 판매하기\n0. 나가기\n");
                 Console.Write(">>");
@@ -134,12 +134,12 @@ namespace B04Project
                         MainMenu();
                         break;
                     case 1:
-                        itemManager.BuyShopItem();
+                        //itemManager.BuyShopItem();
                         //itemManager.MyInventory();//아이템 구매,판매로 아이템정보값 변경.>> 다시호출 아이템리스트 갱신
                         //player.Status();        // 아이템으로 인한 플레이어 능력치 또한 변경되니 요기서 호출해서 갱신
                         break;
                     case 2:
-                        itemManager.SellShopItem();
+                        //itemManager.SellShopItem();
                         //itemManager.MyInventory();//아이템 구매,판매로 아이템정보값 변경.>> 다시호출 아이템리스트 갱신
                         //player.Status();        // 아이템으로 인한 플레이어 능력치 또한 변경되니 요기서 호출해서 갱신
                         break;
