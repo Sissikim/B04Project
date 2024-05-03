@@ -10,9 +10,9 @@ using B04Project;
 
 namespace B04Project
 {
-    
+
     public class Item
-    {         
+    {
         public int level;
         private string itemName;
         private string equipment;
@@ -37,7 +37,7 @@ namespace B04Project
             price = _price; //가격
             isBuy = _isBuy; //구매 여부
         }
-        public Item(int _num,string _itemName, string _equipment, string _type, int _itemValue, string _info, int _price,int _itemCarry, int _maxItemCarry) //소모품 아이템 생성자
+        public Item(int _num, string _itemName, string _equipment, string _type, int _itemValue, string _info, int _price, int _itemCarry, int _maxItemCarry) //소모품 아이템 생성자
         {
             level = _num; //호출 할수가 없어서 만든 주소값 같은것..
             itemName = _itemName; //이름
@@ -123,6 +123,7 @@ namespace B04Project
         }
 
     }
+    /*
     public class ItemManager
     {
         static PlayerManager player = new PlayerManager();
@@ -403,5 +404,6 @@ namespace B04Project
                 ViewShop();
             }
         }
-    }                
+    }
+    */
 }
