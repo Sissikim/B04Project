@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
@@ -9,8 +10,7 @@ using System.Threading.Tasks;
 using B04Project;
 
 namespace B04Project
-{
-    
+{    
     public class Item
     {         
         public int level;
@@ -126,6 +126,7 @@ namespace B04Project
     public class ItemManager
     {
         static PlayerManager player = new PlayerManager();
+        static GameManager gameManager = new GameManager();
 
         public List<Item> itemList; //전체 아이템 리스트
         public List<Item> myList; //내 보유한 리스트
@@ -134,17 +135,17 @@ namespace B04Project
             itemList = new List<Item>();
             myList = new List<Item>();
 
-            itemList.Add(new Item(0, "낡은 검    ", "무기", false, "공격력", 2, "낡은 검 입니다.", 100, false));
-            itemList.Add(new Item(0, "청동 도끼  ", "무기", false, "공격력", 5, "청동 도끼 입니다.", 100, false));
+            itemList.Add(new Item(0, "낡은 검    ", "무기", false, "공격력", 2, "낡은 검 입니다.", 500, true));
+            itemList.Add(new Item(0, "청동 도끼  ", "무기", false, "공격력", 5, "청동 도끼 입니다.", 2000, true));
             itemList.Add(new Item(0, "스파르타의 창", "무기", false, "공격력", 7, "전설의 창입니다.", 3500, false));
-            itemList.Add(new Item(0, "수련자 갑옷 ", "장비", false, "방어력", 5, "수련용 갑옷입니다.", 1000, false));
-            itemList.Add(new Item(0, "무쇠갑옷    ", "장비", false, "방어력", 9, "튼튼한 갑옷입니다.", 2000, false));
+            itemList.Add(new Item(0, "수련자 갑옷 ", "장비", false, "방어력", 5, "수련용 갑옷입니다.", 500, true));
+            itemList.Add(new Item(0, "무쇠갑옷    ", "장비", false, "방어력", 9, "튼튼한 갑옷입니다.", 2000, true));
             itemList.Add(new Item(0, "스파르타의 갑옷", "장비", false, "방어력", 15, "전설의 갑옷입니다.", 3500, false));
 
             itemList.Add(new Item(0, "구매 테스트용", "무역", "무역", 0, "잡탬.", 100, 0, 99));
             itemList.Add(new Item(0, "판매 테스트용", "무역", "무역", 0, "잡탬.", 100, 0, 99));
 
-            itemList.Add(new Item(0, "소량 회복포션", "소모", "체력", 25, "25체력 회복약.", 100, 0, 10));
+            itemList.Add(new Item(0, "소량 회복포션", "소모", "체력", 25, "25체력 회복약.", 100, 1, 10));
             itemList.Add(new Item(0, "중량 회복포션", "소모", "체력", 50, "50체력 회복약.", 300, 0, 5));
             itemList.Add(new Item(0, "대량 회복포션", "소모", "체력", 100, "100체력 회복약.", 1000, 0, 2));
 
@@ -154,7 +155,7 @@ namespace B04Project
         }
         public void MyInventory() //내인벤토리
         {
-            myList.Clear(); //초기화 (사실 왜 하는진 모름.)
+            //myList.Clear(); //초기화 (사실 왜 하는진 모름.)
             for (int i = 0; i < itemList.Count; i++)
             {
                 if (itemList[i].IsBuy)  //구매한 아이템 이라면
@@ -168,26 +169,43 @@ namespace B04Project
                     myList.Add(myItem);
                 }
             }
-            //for (int i = 0; i < myList.Count; i++)
-            //{
-            //    Console.WriteLine($"{myList[i].Name}"); //MyInventoryMake 확인용
-            //}
         }
         public void SetMyInventory() //내인벤토리 표시
         {
-            for (int i = 0; i < myList.Count; i++)
+            while (true)
             {
-                string isEquipment = myList[i].IsEquipment ? "E" : "X"; //착용된 장비면 "E" 아니면 "X"
-                if (myList[i].Equipment == "무역") // 장비군이 무역탬이면 [강화,공격력,착용여부 등 표시 할 필요 없어서]
-                { Console.WriteLine($"{myList[i].Name}| {myList[i].Equipment} | {myList[i].Info} | ({myList[i].ItemCarry}/{myList[i].MaxItemCarry} | {myList[i].Price}G"); }
-                else if (myList[i].Equipment == "소모") //장비군이 소모탬이면 [강화,착용여부 등 표시 할 필요 없어서]
-                { Console.WriteLine($"{myList[i].Name}| {myList[i].Equipment} | {myList[i].Info} | ({myList[i].ItemCarry}/{myList[i].MaxItemCarry})"); }
-                else //장비라면 
-                { Console.WriteLine($"[{isEquipment}]{myList[i].Name}+{myList[i].Level}강 | {myList[i].Equipment} | {myList[i].Type} +{myList[i].ItemValue} | {myList[i].Info}"); }
+                Console.Clear();
+                ConsoleUtility.ShowTitle("■ 인벤토리 ■");
+                Console.WriteLine("");
+                for (int i = 0; i < myList.Count; i++)
+                {
+                    string isEquipment = myList[i].IsEquipment ? "E" : "X"; //착용된 장비면 "E" 아니면 "X"
+                    if (myList[i].Equipment == "무역") // 장비군이 무역탬이면 [강화,공격력,착용여부 등 표시 할 필요 없어서]
+                    { Console.WriteLine($"{myList[i].Name}| {myList[i].Equipment} | {myList[i].Info} | ({myList[i].ItemCarry}/{myList[i].MaxItemCarry} | {myList[i].Price}G"); }
+                    else if (myList[i].Equipment == "소모") //장비군이 소모탬이면 [강화,착용여부 등 표시 할 필요 없어서]
+                    { Console.WriteLine($"{myList[i].Name}| {myList[i].Equipment} | {myList[i].Info} | ({myList[i].ItemCarry}/{myList[i].MaxItemCarry})"); }
+                    else //장비라면 
+                    { Console.WriteLine($"[{isEquipment}]{myList[i].Name}+{myList[i].Level}강 | {myList[i].Equipment} | {myList[i].Type} +{myList[i].ItemValue} | {myList[i].Info}"); }
+                }
+                Console.WriteLine("");
+                Console.WriteLine($"player.statusList[0].TemAtk = {player.statusList[0].TemAtk }");
+                Console.WriteLine("1. 착용하기\n0. 나가기\n");
+                Console.Write(">>");
+                switch (ConsoleUtility.PromptMenuChoice(0, 1))
+                {
+                    case 0:
+                        gameManager.MainMenu();
+                        break;
+                    case 1:
+                        Console.Clear();
+                        SetEquipmenty();
+                        break;
+                }
             }
         }
         public void SetEquipmenty() //장비 착용부
         {
+            Console.Clear();            
             while (true)
             {
                 Console.WriteLine("장착관리 ");
@@ -207,26 +225,33 @@ namespace B04Project
                 {
                     break;
                 }
-
-                myList[choice - 1].IsEquipment = !myList[choice - 1].IsEquipment; //선택장비 착용
-
-                foreach (Item i in myList) //리스트내에 모든 Item 자료를 i로 불러온다
+                else if (choice > 0 && choice < myList.Count)
                 {
-                    if (myList[choice - 1] != i) //선택장비와 같은것 열외
+
+                    myList[choice - 1].IsEquipment = !myList[choice - 1].IsEquipment; //선택장비 착용
+                    if (myList[choice - 1].Equipment == "무기") { player.statusList[0].TemAtk += myList[choice - 1].ItemValue; }
+                    else { player.statusList[0].TemDef += myList[choice - 1].ItemValue; }
+
+                    foreach (Item i in myList) //리스트내에 모든 Item 자료를 i로 불러온다
                     {
-                        if (myList[choice - 1].Equipment == i.Equipment) //같은종류의 장비중에
+                        if (myList[choice - 1] != i) //선택장비와 같은것 열외
                         {
-                            if (myList[choice - 1].IsEquipment) //선택장비 착용이 되엇으면 [단순 벗기할때 감지]
+                            if (myList[choice - 1].Equipment == i.Equipment) //같은종류의 장비중에
                             {
-                                if (i.IsEquipment) //다른장비가 착용중 이라면
+                                if (myList[choice - 1].IsEquipment) //선택장비 착용이 되엇으면 [단순 벗기할때 감지]
                                 {
-                                    i.IsEquipment = false; // 그 다른장비는 벗기
-                                } //중복착용 방지
+                                    if (i.IsEquipment) //다른장비가 착용중 이라면
+                                    {
+                                        i.IsEquipment = false; // 그 다른장비는 벗기
+                                        if (i.Equipment == "무기") { player.statusList[0].TemAtk -= i.ItemValue; }
+                                        else { player.statusList[0].TemDef += i.ItemValue; }
+                                    } //중복착용 방지
+                                }
                             }
                         }
                     }
-                    //i.IsEquipment==false // {미구현} 장비 낀거만 플레어어스텟 추가적용부
-                }                
+                }
+                else { Console.WriteLine("잘못된 입력."); }
             }
         }
         public void SetPotion() //내포션
@@ -262,13 +287,37 @@ namespace B04Project
                         //플레이어의 최대마력변수도 있어야하고
                         //최대마력넘게 회복할수없게 해야함
                     }
-
                     if (i.ItemCarry == 0) //소지수량이 0이면
                     {
                         myList.Remove(i); //인벤에서 제거 
                     }
                 }
             }
+        }
+        public void Shop()
+        {
+            while (true)
+            {
+                Console.Clear();
+                ConsoleUtility.ShowTitle("■ 상 점 ■");
+                Console.WriteLine("");
+                ViewShop();
+                Console.WriteLine("");
+                Console.WriteLine("1. 구매하기\n2. 판매하기\n0. 나가기\n");
+                Console.Write(">>");
+                switch (ConsoleUtility.PromptMenuChoice(0, 2))
+                {
+                    case 0:
+                        gameManager.MainMenu();
+                        break;
+                    case 1:
+                        BuyShopItem();
+                        break;
+                    case 2:
+                        SellShopItem();
+                        break;
+                }
+            }        
         }
         public void ViewShop()
         {

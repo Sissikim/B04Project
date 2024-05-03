@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using System;
+using System.Numerics;
 
 namespace B04Project
 {
@@ -211,6 +212,29 @@ namespace B04Project
                         }
                 }
             }
+        }
+        public void StatusMenu()
+        {
+            Console.Clear();
+            ConsoleUtility.ShowTitle("■ 상태보기 ■");
+            Console.WriteLine("캐릭터의 정보가 표시됩니다.");
+            Console.WriteLine("");
+            Console.WriteLine($"Lv. {statusList[0].Level}");
+            Console.WriteLine($"이  름 : {statusList[0].Name}");
+            Console.WriteLine($"Chad ( {statusList[0].Chad} )");
+            Console.WriteLine($"체  력 : {statusList[0].Hp} / {statusList[0].MaxHp}");
+            Console.WriteLine($"마  력 : {statusList[0].Mp} / {statusList[0].MaxMp}");
+            Console.WriteLine("=============================");
+            Console.WriteLine($"공격력 : {statusList[0].Atk} +{statusList[0].TemAtk}");
+            Console.WriteLine($"방어력 :  {statusList[0].Def} +{statusList[0].TemDef}");
+            Console.WriteLine("");
+            Console.WriteLine($"Gold : {statusList[0].Gold} G");
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("0. 나가기");
+            Console.WriteLine("");
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+            Console.Write(">>");            
         }
     }
  }
