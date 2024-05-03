@@ -16,15 +16,10 @@ namespace B04Project
 
         static MonsterManager monsterManager = new MonsterManager();
         static GameManager gameManager;
-        //static PlayerManager player;
-
         //static ItemManager itemManager = new ItemManager(); //아이템매니저 생성자        
-        //private Player player;
         
         public void Battle()
         {
-            //player = new PlayerManager();
-
             Console.Clear();
             //itemManager.MyInventory();
             ConsoleUtility.ShowTitle("[ Battle !! ]\n");
@@ -47,7 +42,6 @@ namespace B04Project
             }
         }
 
-        //int HitPoint = 100; // player.cs 완성되면 player.Hp 입력
         int random_attackErrorrange;
 
         public void BattleScene()
@@ -82,7 +76,6 @@ namespace B04Project
         public void PlayerPhase()
         {
             Console.WriteLine("\n공격하실 몬스터를 선택해주세요.");
-            Console.WriteLine($"{GameManager.player.statusList[0].Atk}"); // 공격력 출력
 
             for (int i = 0; i < monsterManager.enemyList.Count; i++)
             {
@@ -113,11 +106,11 @@ namespace B04Project
 
             // 선택된 몬스터에 대한 공격 처리
             PlayerAttack();
-            monsterManager.enemyList[choice - 1].MonHP -=random_attackErrorrange; // 플레이어 공격력 기입 예정
+            monsterManager.enemyList[choice - 1].MonHP -=random_attackErrorrange;
 
             Console.Write("\nChad의 공격! ");
             Console.Write($"Lv.{monsterManager.enemyList[choice - 1].Level} {monsterManager.enemyList[choice - 1].MonName}을(를) 공격하였습니다. ");
-            Console.Write($" {random_attackErrorrange} ");
+            Console.Write($"[ 데미지 : {random_attackErrorrange} ] ");
 
             if (monsterManager.enemyList[choice - 1].MonHP > 0)
             {
@@ -144,9 +137,13 @@ namespace B04Project
                 {
                     Console.Write($"\nLv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName}의 공격! ");
                     Console.Write($"[ 데미지 : {monsterManager.enemyList[i].monPower} ] ");
-                    GameManager.player.statusList[0].Hp -= monsterManager.enemyList[i].monPower; // player.cs 완성되면 player.Hp 입력
+                    GameManager.player.statusList[0].Hp -= monsterManager.enemyList[i].monPower;
 
-                    Console.WriteLine($"[ {GameManager.player.statusList[0].Name}의 남은 체력 : {GameManager.player.statusList[0].Hp} ]"); // player.cs 완성되면 player.Hp 입력
+                    if (GameManager.player.statusList[0].Hp <= 0)
+                    {
+                        GameManager.player.statusList[0].Hp = 0;
+                    }
+                    Console.WriteLine($"[ {GameManager.player.statusList[0].Name}의 남은 체력 : {GameManager.player.statusList[0].Hp} ]");
                     Console.ReadKey();
                 }
             }
@@ -164,22 +161,23 @@ namespace B04Project
                 }
             }
 
-            if (GameManager.player.statusList[0].Hp <= 0 || allMonstersDead) // player.cs 완성되면 player.Hp 입력
+            if (GameManager.player.statusList[0].Hp <= 0 || allMonstersDead)
             {
                 Console.Clear();
                 ConsoleUtility.ShowTitle("[ Battle !! - Result ]\n\n");
                 
-                if (GameManager.player.statusList[0].Hp <= 0) // player.cs 완성되면 player.Hp 입력
+                if (GameManager.player.statusList[0].Hp <= 0)
                 {
                     Console.WriteLine("You Lose\n\n");
-                    Console.WriteLine($"Lv.1 {GameManager.player.statusList[0].Name}\nHp : {GameManager.player.statusList[0].Hp} -> Dead\n"); // player.cs 완성되면 player.Hp 입력
+                    Console.WriteLine($"Lv.1 {GameManager.player.statusList[0].Name}\nHp : {GameManager.player.statusList[0].Hp} -> Dead\n");
                     Console.Write("0. 메인 메뉴\n>>");
+                    GameManager.player.statusList[0].Hp = 1;
                 }
                 else if (allMonstersDead)
                 {
                     Console.WriteLine("Victory\n\n");
                     Console.WriteLine("던전의 모든 몬스터를 토벌하였습니다.\n");
-                    Console.WriteLine($"Lv.1 {GameManager.player.statusList[0].Name}\nHp : {GameManager.player.statusList[0].Hp}\n"); // player.cs 완성되면 player.Hp 입력
+                    Console.WriteLine($"Lv.1 {GameManager.player.statusList[0].Name}\nHp : {GameManager.player.statusList[0].Hp}\n");
                     Console.Write("0. 메인 메뉴\n>>");
                 }
                 
@@ -195,11 +193,9 @@ namespace B04Project
 
         public void PlayerAttack()
         {
-            //int Atk = 13;
-            
             Random rand = new Random();
-            int error = (int)Math.Ceiling(0.1f * GameManager.player.statusList[0].Atk);
-            random_attackErrorrange = rand.Next((GameManager.player.statusList[0].Atk - error),(GameManager.player.statusList[0].Atk + error + 1));
+            int error = (int)Math.Ceiling(0.1f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
+            random_attackErrorrange = rand.Next((GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk - error),(GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk + error + 1));
         }
     }
 }
