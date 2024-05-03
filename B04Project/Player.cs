@@ -129,10 +129,12 @@ namespace B04Project
     
     public class PlayerManager
     {
+        static GameManager gameManager;
         public List<Player> statusList;
 
-        public PlayerManager()
+        public PlayerManager(GameManager GM)
         {
+            gameManager = GM;
             statusList = new List<Player>();
             statusList.Add(new Player("이름", "직업", 1, 5, 0, 0, 0, 30, 30, 10, 10, 3000));
         }

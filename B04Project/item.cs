@@ -124,14 +124,19 @@ namespace B04Project
 
     }
     public class ItemManager
-    {
-        static PlayerManager player = new PlayerManager();
-        static GameManager gameManager = new GameManager();
+    {        
+        static GameManager gameManager; 
 
         public List<Item> itemList; //전체 아이템 리스트
         public List<Item> myList; //내 보유한 리스트
-        public ItemManager() //전체 아이템
+
+        public ItemManager() 
+        { 
+
+        }
+        public ItemManager(GameManager GM) //전체 아이템
         {
+            gameManager = GM;
             itemList = new List<Item>();
             myList = new List<Item>();
 
@@ -188,7 +193,7 @@ namespace B04Project
                     { Console.WriteLine($"[{isEquipment}]{myList[i].Name}+{myList[i].Level}강 | {myList[i].Equipment} | {myList[i].Type} +{myList[i].ItemValue} | {myList[i].Info}"); }
                 }
                 Console.WriteLine("");
-                Console.WriteLine($"player.statusList[0].TemAtk = {player.statusList[0].TemAtk }");
+                Console.WriteLine($"player.statusList[0].TemAtk = {gameManager.player.statusList[0].TemAtk }");
                 Console.WriteLine("1. 착용하기\n0. 나가기\n");
                 Console.Write(">>");
                 switch (ConsoleUtility.PromptMenuChoice(0, 1))
@@ -229,8 +234,8 @@ namespace B04Project
                 {
 
                     myList[choice - 1].IsEquipment = !myList[choice - 1].IsEquipment; //선택장비 착용
-                    if (myList[choice - 1].Equipment == "무기") { player.statusList[0].TemAtk += myList[choice - 1].ItemValue; }
-                    else { player.statusList[0].TemDef += myList[choice - 1].ItemValue; }
+                    if (myList[choice - 1].Equipment == "무기") { gameManager.player.statusList[0].TemAtk += myList[choice - 1].ItemValue; }
+                    else { gameManager.player.statusList[0].TemDef += myList[choice - 1].ItemValue; }
 
                     foreach (Item i in myList) //리스트내에 모든 Item 자료를 i로 불러온다
                     {
@@ -243,8 +248,8 @@ namespace B04Project
                                     if (i.IsEquipment) //다른장비가 착용중 이라면
                                     {
                                         i.IsEquipment = false; // 그 다른장비는 벗기
-                                        if (i.Equipment == "무기") { player.statusList[0].TemAtk -= i.ItemValue; }
-                                        else { player.statusList[0].TemDef += i.ItemValue; }
+                                        if (i.Equipment == "무기") { gameManager.player.statusList[0].TemAtk -= i.ItemValue; }
+                                        else { gameManager.player.statusList[0].TemDef += i.ItemValue; }
                                     } //중복착용 방지
                                 }
                             }
@@ -321,7 +326,7 @@ namespace B04Project
         }
         public void ViewShop()
         {
-            Console.WriteLine($"소지골드 : {player.statusList[0].Gold} G");
+            Console.WriteLine($"소지골드 : {gameManager.player.statusList[0].Gold} G");
             Console.WriteLine("");
             for (int i = 0; i < itemList.Count; i++)
             {
@@ -359,13 +364,13 @@ namespace B04Project
                     {
                         Console.WriteLine("이미 구매한거임.");
                     }
-                    else if (player.statusList[0].Gold > item.Price && item.IsBuy == false) // 구매 가능
+                    else if (gameManager.player.statusList[0].Gold > item.Price && item.IsBuy == false) // 구매 가능
                     {
                         Console.WriteLine("구매완료.");
                         item.IsBuy = true;
-                        player.statusList[0].Gold -= item.Price; //돈 나감
+                        gameManager.player.statusList[0].Gold -= item.Price; //돈 나감
                     }
-                    else if (player.statusList[0].Gold < item.Price) // 돈 없으면
+                    else if (gameManager.player.statusList[0].Gold < item.Price) // 돈 없으면
                     {
                         Console.WriteLine("님 돈 없.");
                     }
@@ -380,13 +385,13 @@ namespace B04Project
                     {
                         Console.WriteLine("이미 최대치임.");
                     }
-                    else if (player.statusList[0].Gold > item.Price && item.ItemCarry < item.MaxItemCarry) //중첩가능 구매시
+                    else if (gameManager.player.statusList[0].Gold > item.Price && item.ItemCarry < item.MaxItemCarry) //중첩가능 구매시
                     {
                         Console.WriteLine("구매완료.");
                         item.ItemCarry += 1;
-                        player.statusList[0].Gold -= item.Price; //돈 나감
+                        gameManager.player.statusList[0].Gold -= item.Price; //돈 나감
                     }
-                    else if (player.statusList[0].Gold < item.Price) // 돈 없으면
+                    else if (gameManager.player.statusList[0].Gold < item.Price) // 돈 없으면
                     {
                         Console.WriteLine("님 돈 없.");
                     }
@@ -424,7 +429,7 @@ namespace B04Project
                     {
                         Console.WriteLine("판매완료.");
                         item.IsBuy = false;
-                        player.statusList[0].Gold += item.Price; //돈 입금
+                        gameManager.player.statusList[0].Gold += item.Price; //돈 입금
                     }
                     else // 잘못된 입력
                     {
@@ -441,7 +446,7 @@ namespace B04Project
                     {
                         Console.WriteLine("구매완료.");
                         item.ItemCarry -= 1;
-                        player.statusList[0].Gold += item.Price; //돈 입금
+                        gameManager.player.statusList[0].Gold += item.Price; //돈 입금
                     } 
                 }
                 else // 잘못된 입력

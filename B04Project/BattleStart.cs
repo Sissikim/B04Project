@@ -8,18 +8,21 @@ using B04Project;
 namespace B04Project
 {
     internal class BattleStart
-    {
-        static MonsterManager monsterManager = new MonsterManager();
-        static GameManager gameManager = new GameManager();
-        static ItemManager itemManager = new ItemManager(); //아이템매니저 생성자
+    {        
+        static GameManager gameManager;        
 
+        public BattleStart(GameManager GM) 
+        {
+            gameManager = GM;
+        }
+        
         public void Battle()
         {
             Console.Clear();
-            itemManager.MyInventory();
+            gameManager.itemManager.MyInventory();
             ConsoleUtility.ShowTitle("[ Battle !! ]\n");
 
-            monsterManager.BattleMonsterMake();
+            gameManager.monsterManager.BattleMonsterMake();
             Console.WriteLine("");
             Console.WriteLine("1. 공격하기\n0. 도망치기\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
@@ -43,9 +46,9 @@ namespace B04Project
             {
                 Console.Clear();
                 ConsoleUtility.ShowTitle("[ Battle !! ]\n");
-                monsterManager.SetMonster();
+                gameManager.monsterManager.SetMonster();
                 Console.WriteLine("");
-                itemManager.SetPotion();
+                gameManager.itemManager.SetPotion();
                 Console.WriteLine("");
                 Console.WriteLine("\n1.공격?\n2.포션?.\n0.도망?(미구현)");
                 Console.Write(">>");
@@ -70,39 +73,39 @@ namespace B04Project
             switch (ConsoleUtility.PromptMenuChoice(1, 4))
             {
                 case 1:
-                    monsterManager.enemyList[0].MonHP -= 10; //플레이어 공격력값을 가져와서 넣어야하는데..        
+                    gameManager.monsterManager.enemyList[0].MonHP -= 10; //플레이어 공격력값을 가져와서 넣어야하는데..        
                     break;
                 case 2:
-                    if (monsterManager.enemyList.Count < 2) // 적의수가 2명이 아니면
+                    if (gameManager.monsterManager.enemyList.Count < 2) // 적의수가 2명이 아니면
                     {
                         Console.WriteLine("잘못입력.");
                         break;
                     }
                     else
                     {
-                        monsterManager.enemyList[1].MonHP -= 10; //플레이어 공격력값을 가져와서 넣어야하는데..               
+                        gameManager.monsterManager.enemyList[1].MonHP -= 10; //플레이어 공격력값을 가져와서 넣어야하는데..               
                         break;
                     }
                 case 3:
-                    if (monsterManager.enemyList.Count < 3) // 적의수가 3명이 아니면
+                    if (gameManager.monsterManager.enemyList.Count < 3) // 적의수가 3명이 아니면
                     {
                         Console.WriteLine("잘못입력.");
                         break;
                     }
                     else
                     {
-                        monsterManager.enemyList[2].MonHP -= 10; //플레이어 공격력값을 가져와서 넣어야하는데..               
+                        gameManager.monsterManager.enemyList[2].MonHP -= 10; //플레이어 공격력값을 가져와서 넣어야하는데..               
                         break;
                     }
                 case 4:
-                    if (monsterManager.enemyList.Count < 4) // 적의수가 4명이 아니면
+                    if (gameManager.monsterManager.enemyList.Count < 4) // 적의수가 4명이 아니면
                     {
                         Console.WriteLine("잘못입력.");
                         break;
                     }
                     else
                     {
-                        monsterManager.enemyList[3].MonHP -= 10; //플레이어 공격력값을 가져와서 넣어야하는데..               
+                        gameManager.monsterManager.enemyList[3].MonHP -= 10; //플레이어 공격력값을 가져와서 넣어야하는데..               
                         break;
                     }
             }
@@ -115,22 +118,22 @@ namespace B04Project
             switch (ConsoleUtility.PromptMenuChoice(1, 6)) //스위치 괄호 뒷부분 이해를 못해서 포션총갯수 6으로 넣음
             {
                 case 1:
-                    itemManager.UsePotion(1);
+                    gameManager.itemManager.UsePotion(1);
                     break;
                 case 2:
-                    itemManager.UsePotion(2);
+                    gameManager.itemManager.UsePotion(2);
                     break;
                 case 3:
-                    itemManager.UsePotion(3);
+                    gameManager.itemManager.UsePotion(3);
                     break;
                 case 4:
-                    itemManager.UsePotion(4);
+                    gameManager.itemManager.UsePotion(4);
                     break;
                 case 5:
-                    itemManager.UsePotion(5);
+                    gameManager.itemManager.UsePotion(5);
                     break;
                 case 6:
-                    itemManager.UsePotion(6);
+                    gameManager.itemManager.UsePotion(6);
                     break;
             }
         }

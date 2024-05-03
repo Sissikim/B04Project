@@ -68,10 +68,12 @@ namespace B04Project
     }
     public class MonsterManager
     {
+        GameManager GameManager;
         public List<Monster> monList; //전체 몬스터 리스트
         public List<Monster> enemyList; //전투 참여 몬스터 리스트
-        public MonsterManager() //전체 몬스터
+        public MonsterManager(GameManager GM) //전체 몬스터
         {
+            GameManager=GM;
             monList = new List<Monster>();
             enemyList = new List<Monster>();
 

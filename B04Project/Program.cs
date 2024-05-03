@@ -7,9 +7,10 @@ namespace B04Project
 {    
     public class GameManager
     {
-        static PlayerManager player;
-        static ItemManager itemManager;
-        static BattleStart battleStart;
+        public PlayerManager player;
+        public ItemManager itemManager;
+        public BattleStart battleStart;
+        public MonsterManager monsterManager;
 
         public GameManager()
         {
@@ -18,9 +19,10 @@ namespace B04Project
 
         private void InitializeGame()
         {
-            player = new PlayerManager();
-            battleStart = new BattleStart();
-            itemManager = new ItemManager(); //아이템매니저 생성자    
+            player = new PlayerManager(this);
+            battleStart = new BattleStart(this);
+            monsterManager = new MonsterManager(this);
+            itemManager = new ItemManager(this); //아이템매니저 생성자
         }
 
         public void StartGame()
@@ -36,32 +38,35 @@ namespace B04Project
         }
 
         public void MainMenu()
-        {            
-            Console.Clear();
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
-            Console.WriteLine("이제 전투를 시작할 수 있습니다.");
-            Console.WriteLine("");
-            Console.WriteLine("1. 상태 보기\n2. 전투 시작\n3. 인벤토리\n4. 상점\n");
-            Console.WriteLine("원하시는 행동을 입력해주세요.");
-            Console.WriteLine($"player.statusList[0].TemAtk = {player.statusList[0].TemAtk}");
-            Console.WriteLine($"itemManager.myList.Count = {itemManager.myList.Count}");
-            Console.Write(">>");
-            
-            int choice = ConsoleUtility.PromptMenuChoice(1, 4);
-            switch (choice)
+        {
+            while (true)
             {
-                case 1:                    
-                    Status();
-                    break;
-                case 2:
-                    battleStart.Battle();
-                    break;
-                case 3:
-                    itemManager.SetMyInventory();
-                    break;
-                case 4:
-                    itemManager.Shop();                    
-                    break;
+                Console.Clear();
+                Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
+                Console.WriteLine("이제 전투를 시작할 수 있습니다.");
+                Console.WriteLine("");
+                Console.WriteLine("1. 상태 보기\n2. 전투 시작\n3. 인벤토리\n4. 상점\n");
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
+                Console.WriteLine($"player.statusList[0].TemAtk = {player.statusList[0].TemAtk}");
+                Console.WriteLine($"itemManager.myList.Count = {itemManager.myList.Count}");
+                Console.Write(">>");
+
+                int choice = ConsoleUtility.PromptMenuChoice(1, 4);
+                switch (choice)
+                {
+                    case 1:
+                        Status();
+                        break;
+                    case 2:
+                        battleStart.Battle();
+                        break;
+                    case 3:
+                        itemManager.SetMyInventory();
+                        break;
+                    case 4:
+                        itemManager.Shop();
+                        break;
+                }
             }
         }
         public void Status() 
