@@ -21,7 +21,7 @@ namespace B04Project
         private int totalDef;
         public int gold;
 
-        public Player(string _name, string _chad, int _level, int _atk, int _def, int _temAtk, int _temDef, int _totalAtk, int _totalDef, int _hp, int _maxHp, int _mp, int _maxMp, int _gold)
+        public Player(string _name, string _chad, int _level, int _atk, int _def, int _temAtk, int _temDef,  int _hp, int _maxHp, int _mp, int _maxMp, int _gold)
         {
             name = _name;     //이름
             chad = _chad;     //직업?
@@ -30,8 +30,8 @@ namespace B04Project
             def = _def;       //기본 방어력
             temAtk = _temAtk; // +장비 공격력
             temDef = _temDef; // +장비 방어력
-            totalAtk = _totalAtk; //최종 공격력
-            totalDef = _totalDef; //최종 방어력
+            totalAtk = _atk+ _temAtk; //최종 공격력
+            totalDef = _def+ _temDef; //최종 방어력
             hp = _hp;        //현재 체력
             maxHp = _maxHp;  //최대 체력
             mp = _mp;        //현재 마력
@@ -47,8 +47,8 @@ namespace B04Project
             def = player.def; 
             temAtk = player.temAtk; 
             temDef = player.temDef;
-            totalAtk = player.totalAtk;
-            totalDef = player.totalDef;
+            totalAtk = player.atk + player.temAtk;
+            totalDef = player.def + player.temDef;
             hp = player.hp;
             maxHp = player.maxHp;
             mp = player.mp;        //현재 마력
@@ -133,7 +133,7 @@ namespace B04Project
         public PlayerManager()
         {
             statusList = new List<Player>();
-            statusList.Add(new Player("이름", "직업", 1, 5, 0, 0, 0, 5, 0, 30, 30, 10, 10, 2000));
+            statusList.Add(new Player("이름", "직업", 1, 5, 0, 0, 0, 30, 30, 10, 10, 2000));
         }
         public void NameChoice()
         {
