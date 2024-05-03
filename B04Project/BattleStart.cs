@@ -8,23 +8,30 @@ using B04Project;
 namespace B04Project
 {
     internal class BattleStart
-    {        
-        static GameManager gameManager;        
-
-        public BattleStart(GameManager GM) 
+    {
+        public BattleStart(GameManager GM)
         {
             gameManager = GM;
         }
+
+        static MonsterManager monsterManager = new MonsterManager();
+        static GameManager gameManager;
+        //static PlayerManager player;
+
+        //static ItemManager itemManager = new ItemManager(); //아이템매니저 생성자        
+        //private Player player;
         
         public void Battle()
         {
+            //player = new PlayerManager();
+
             Console.Clear();
-            gameManager.itemManager.MyInventory();
+            //itemManager.MyInventory();
             ConsoleUtility.ShowTitle("[ Battle !! ]\n");
 
-            gameManager.monsterManager.BattleMonsterMake();
-            Console.WriteLine("");
-            Console.WriteLine("1. 공격하기\n0. 도망치기\n");
+            monsterManager.BattleMonsterMake();
+            Console.WriteLine($"\n\n[ 내 정보 ]\nLv.{GameManager.player.statusList[0].Level} {GameManager.player.statusList[0].Name} ( {GameManager.player.statusList[0].Chad} )\nHP {GameManager.player.statusList[0].Hp} / {GameManager.player.statusList[0].MaxHp}");
+            Console.WriteLine("\n1. 공격하기\n0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
 
@@ -34,23 +41,28 @@ namespace B04Project
                     gameManager.MainMenu();
                     break;
                 case 1:
-                    Console.Clear();                    
+                    Console.Clear();
                     BattleScene();
                     break;
             }
         }
 
+        //int HitPoint = 100; // player.cs 완성되면 player.Hp 입력
+        int random_attackErrorrange;
+
         public void BattleScene()
         {
+            Console.Clear();
+
             while (true)
             {
-                Console.Clear();
                 ConsoleUtility.ShowTitle("[ Battle !! ]\n");
-                gameManager.monsterManager.SetMonster();
+                monsterManager.SetMonster();
                 Console.WriteLine("");
-                gameManager.itemManager.SetPotion();
+                Console.WriteLine($"[ 내 정보 ]\nLv.{GameManager.player.statusList[0].Level} {GameManager.player.statusList[0].Name} ( {GameManager.player.statusList[0].Chad} )\nHP {GameManager.player.statusList[0].Hp} / {GameManager.player.statusList[0].MaxHp}"); // player.cs 완성되면 player.Hp 입력
+                //itemManager.SetPotion();
                 Console.WriteLine("");
-                Console.WriteLine("\n1.공격?\n2.포션?.\n0.도망?(미구현)");
+                Console.WriteLine("\n1. 공격\n2. 아이템 사용\n0. 나가기");
                 Console.Write(">>");
                 switch (ConsoleUtility.PromptMenuChoice(0, 2))
                 {
@@ -58,90 +70,136 @@ namespace B04Project
                         gameManager.MainMenu();
                         break;
                     case 1:
-                        Attack();
+                        PlayerPhase();
                         break;
                     case 2:
-                        BattleUsePotion();
+                        UsePotion();
+                        break;
+                }
+                EndPhase();
+            }
+        }
+        public void PlayerPhase()
+        {
+            Console.WriteLine("\n공격하실 몬스터를 선택해주세요.");
+            Console.WriteLine($"{GameManager.player.statusList[0].Atk}"); // 공격력 출력
+
+            for (int i = 0; i < monsterManager.enemyList.Count; i++)
+            {
+                if (!monsterManager.enemyList[i].IsDead)
+                {
+                    Console.WriteLine($"{i + 1}. Lv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName}");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"{i + 1}. Lv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName} [ Dead ]");
+                    Console.ResetColor();
+                }
+            }
+
+            int choice;
+            do
+            {
+                Console.Write(">>");
+                choice = ConsoleUtility.PromptMenuChoice(1, monsterManager.enemyList.Count);
+
+                // 선택된 몬스터가 이미 죽어있는 경우 안내 메시지 표시
+                if (monsterManager.enemyList[choice - 1].IsDead)
+                {
+                    Console.WriteLine("이 몬스터는 이미 죽어있습니다. 다른 몬스터를 선택해주세요.");
+                }
+            } while (monsterManager.enemyList[choice - 1].IsDead); // 선택된 몬스터가 이미 죽어있는 경우 다시 선택하도록 반복
+
+            // 선택된 몬스터에 대한 공격 처리
+            PlayerAttack();
+            monsterManager.enemyList[choice - 1].MonHP -=random_attackErrorrange; // 플레이어 공격력 기입 예정
+
+            Console.Write("\nChad의 공격! ");
+            Console.Write($"Lv.{monsterManager.enemyList[choice - 1].Level} {monsterManager.enemyList[choice - 1].MonName}을(를) 공격하였습니다. ");
+            Console.Write($" {random_attackErrorrange} ");
+
+            if (monsterManager.enemyList[choice - 1].MonHP > 0)
+            {
+                Console.WriteLine($"[ {monsterManager.enemyList[choice - 1].MonName}의 남은 체력 : {monsterManager.enemyList[choice - 1].MonHP} ]");
+            }
+            else
+            {
+                monsterManager.enemyList[choice - 1].IsDead = true;
+                Console.WriteLine("[ Dead ]");
+            }
+            Console.ReadKey();
+            MonsterPhase();
+        }
+        public void UsePotion()
+        {
+
+        }
+
+        public void MonsterPhase()
+        {   
+            for (int i = 0; i < monsterManager.enemyList.Count; i++)
+            {
+                if (!monsterManager.enemyList[i].IsDead)
+                {
+                    Console.Write($"\nLv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName}의 공격! ");
+                    Console.Write($"[ 데미지 : {monsterManager.enemyList[i].monPower} ] ");
+                    GameManager.player.statusList[0].Hp -= monsterManager.enemyList[i].monPower; // player.cs 완성되면 player.Hp 입력
+
+                    Console.WriteLine($"[ {GameManager.player.statusList[0].Name}의 남은 체력 : {GameManager.player.statusList[0].Hp} ]"); // player.cs 완성되면 player.Hp 입력
+                    Console.ReadKey();
+                }
+            }
+        }
+
+        public void EndPhase()
+        {
+            bool allMonstersDead = true;
+            foreach (var monster in monsterManager.enemyList)
+            {
+                if (!monster.IsDead)
+                {
+                    allMonstersDead = false;
+                    break;
+                }
+            }
+
+            if (GameManager.player.statusList[0].Hp <= 0 || allMonstersDead) // player.cs 완성되면 player.Hp 입력
+            {
+                Console.Clear();
+                ConsoleUtility.ShowTitle("[ Battle !! - Result ]\n\n");
+                
+                if (GameManager.player.statusList[0].Hp <= 0) // player.cs 완성되면 player.Hp 입력
+                {
+                    Console.WriteLine("You Lose\n\n");
+                    Console.WriteLine($"Lv.1 {GameManager.player.statusList[0].Name}\nHp : {GameManager.player.statusList[0].Hp} -> Dead\n"); // player.cs 완성되면 player.Hp 입력
+                    Console.Write("0. 메인 메뉴\n>>");
+                }
+                else if (allMonstersDead)
+                {
+                    Console.WriteLine("Victory\n\n");
+                    Console.WriteLine("던전의 모든 몬스터를 토벌하였습니다.\n");
+                    Console.WriteLine($"Lv.1 {GameManager.player.statusList[0].Name}\nHp : {GameManager.player.statusList[0].Hp}\n"); // player.cs 완성되면 player.Hp 입력
+                    Console.Write("0. 메인 메뉴\n>>");
+                }
+                
+                
+                switch (ConsoleUtility.PromptMenuChoice(0, 0))
+                {
+                    case 0:
+                        gameManager.MainMenu();
                         break;
                 }
             }
         }
-        public void Attack()
+
+        public void PlayerAttack()
         {
-            Console.WriteLine("\n공격하실 몬스터를 선택해주세요.");
-            Console.Write(">>");
-            switch (ConsoleUtility.PromptMenuChoice(1, 4))
-            {
-                case 1:
-                    gameManager.monsterManager.enemyList[0].MonHP -= 10; //플레이어 공격력값을 가져와서 넣어야하는데..        
-                    break;
-                case 2:
-                    if (gameManager.monsterManager.enemyList.Count < 2) // 적의수가 2명이 아니면
-                    {
-                        Console.WriteLine("잘못입력.");
-                        break;
-                    }
-                    else
-                    {
-                        gameManager.monsterManager.enemyList[1].MonHP -= 10; //플레이어 공격력값을 가져와서 넣어야하는데..               
-                        break;
-                    }
-                case 3:
-                    if (gameManager.monsterManager.enemyList.Count < 3) // 적의수가 3명이 아니면
-                    {
-                        Console.WriteLine("잘못입력.");
-                        break;
-                    }
-                    else
-                    {
-                        gameManager.monsterManager.enemyList[2].MonHP -= 10; //플레이어 공격력값을 가져와서 넣어야하는데..               
-                        break;
-                    }
-                case 4:
-                    if (gameManager.monsterManager.enemyList.Count < 4) // 적의수가 4명이 아니면
-                    {
-                        Console.WriteLine("잘못입력.");
-                        break;
-                    }
-                    else
-                    {
-                        gameManager.monsterManager.enemyList[3].MonHP -= 10; //플레이어 공격력값을 가져와서 넣어야하는데..               
-                        break;
-                    }
-            }
-            // MonsterAttack();   //적공격턴
+            //int Atk = 13;
+            
+            Random rand = new Random();
+            int error = (int)Math.Ceiling(0.1f * GameManager.player.statusList[0].Atk);
+            random_attackErrorrange = rand.Next((GameManager.player.statusList[0].Atk - error),(GameManager.player.statusList[0].Atk + error + 1));
         }
-        public void BattleUsePotion() //전투중 포션사용
-        {            
-            Console.WriteLine("\n사용할 포션을 선택해주세요.");
-            Console.Write(">>");
-            switch (ConsoleUtility.PromptMenuChoice(1, 6)) //스위치 괄호 뒷부분 이해를 못해서 포션총갯수 6으로 넣음
-            {
-                case 1:
-                    gameManager.itemManager.UsePotion(1);
-                    break;
-                case 2:
-                    gameManager.itemManager.UsePotion(2);
-                    break;
-                case 3:
-                    gameManager.itemManager.UsePotion(3);
-                    break;
-                case 4:
-                    gameManager.itemManager.UsePotion(4);
-                    break;
-                case 5:
-                    gameManager.itemManager.UsePotion(5);
-                    break;
-                case 6:
-                    gameManager.itemManager.UsePotion(6);
-                    break;
-            }
-        }
-
-        public void MonsterAttack()
-        {
-
-        }
-
     }
 }
