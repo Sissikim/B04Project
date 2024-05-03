@@ -2,7 +2,7 @@
 {
     internal class Player
     {
-        public string Name { get; }
+        public string Name { get; set; }
         public string Chad { get; }
         public int Lv { get; }
         public int Atk { get; }
@@ -20,5 +20,6 @@
             Hp = hp;
             Gold = gold;
         }
+
     }
 }

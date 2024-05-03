@@ -8,8 +8,8 @@ namespace B04Project
     public class GameManager
     {
         private Player player;
-        static MonsterManager monsterManager;
-        static BattleStart BattleStart;
+        MonsterManager monsterManager;
+        BattleStart BattleStart;
 
         public GameManager()
         {
@@ -18,7 +18,6 @@ namespace B04Project
 
         private void InitializeGame()
         {
-            player = new Player("B04", "전사", 01, 10, 5, 100, 2000); //상태창에 띄워질 초기수치
             BattleStart = new BattleStart();
         }
 
@@ -26,14 +25,46 @@ namespace B04Project
         {
             Console.Clear();
             ConsoleUtility.PrintGameHeader();
-            MainMenu();
+            StartScene();
         }
 
-        private void MainMenu()
+        public void StartScene()
         {
             Console.Clear();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
-            Console.WriteLine("이제 전투를 시작할 수 있습니다.");
+            Console.WriteLine("이름을 입력하세요");
+            Console.Write(">>");
+            string Playername = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(Playername))
+            {
+                player = new Player(Playername, "전사", 1, 10, 5, 100, 2000);
+                Console.WriteLine($"'{Playername}' 정말 이 이름으로 하시겠습니까?");
+                Console.WriteLine("1. 예    2. 아니오");
+                Console.Write(">>");
+                switch (ConsoleUtility.PromptMenuChoice(1, 2))
+                {
+                    case 1:
+                        player = new Player(Playername, player.Chad, player.Lv, player.Atk, player.Def, player.Hp, player.Gold);
+                        MainMenu();
+                        break;
+                    case 2:
+                        StartScene();
+                        break;
+                }
+            
+            } //파라미터로 게임매니저에 넘기기
+            else
+            {
+                Console.WriteLine("이름을 입력해주세요.");
+                StartScene();
+            }
+
+        }
+
+        public void MainMenu()
+        {
+
             Console.WriteLine("");
             Console.WriteLine("1. 상태 보기\n2. 전투 시작\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
@@ -43,7 +74,7 @@ namespace B04Project
             switch (choice)
             {
                 case 1:
-                    StatusMenu();
+                    StatusMenu(player);
                     break;
                 case 2:
                     BattleStart.Battle();
@@ -52,12 +83,12 @@ namespace B04Project
             MainMenu();
         }
 
-        private void StatusMenu()
+        private void StatusMenu(Player player)
         {
             Console.Clear();
             ConsoleUtility.ShowTitle("■ 상태보기 ■");
             Console.WriteLine("캐릭터의 정보가 표시됩니다.");
-
+            Console.Write($"{ player.Name }");
             Console.WriteLine($"Lv. {player.Lv}");
             Console.WriteLine($"Chad ( {player.Chad} )");
             Console.WriteLine($"공격력 : {player.Atk}");
@@ -86,6 +117,7 @@ namespace B04Project
         {
             GameManager gameManager = new GameManager();
             gameManager.StartGame();
+           
         }
     }
 }
