@@ -39,6 +39,7 @@ namespace B04Project
         }
 
         int HitPoint = 100; // player.cs 완성되면 player.Hp 입력
+        int random_attackErrorrange;
 
         public void BattleScene()
         {
@@ -72,118 +73,52 @@ namespace B04Project
         public void PlayerPhase()
         {
             Console.WriteLine("\n공격하실 몬스터를 선택해주세요.");
-            Console.Write(">>");
-            switch (ConsoleUtility.PromptMenuChoice(1, 4))
+
+            for (int i = 0; i < monsterManager.enemyList.Count; i++)
             {
-                case 1:
-
-                    monsterManager.enemyList[0].MonHP -= 10; //플레이어 공격력 기입 예정
-
-                    Console.Write("Chad 의 공격! ");
-                    Console.Write($"Lv.{monsterManager.enemyList[0].Level}  {monsterManager.enemyList[0].monName} 을(를) 공격하였습니다. ");
-                    Console.Write($"[ 데미지 : 10 ] ");
-
-                    if (monsterManager.enemyList[0].MonHP > 0)
-                    {
-                        Console.WriteLine($"[ {monsterManager.enemyList[0].monName}의 남은 체력 : {monsterManager.enemyList[0].monHP} ]");
-                    }
-                    else
-                    {
-                        monsterManager.enemyList[0].isDead = true;
-                        Console.WriteLine("[ Dead ]");
-                    }
-                    Console.ReadLine();
-                    //Console.Write("\n\n1. 다음으로\n");
-                    //ConsoleUtility.PromptMenuChoice(1, 1);
-                    break;
-                case 2:
-                    if (monsterManager.enemyList.Count < 2) // 적의수가 2명이 아니면
-                    {
-                        Console.WriteLine("잘못입력.");
-                        break;
-                    }
-                    else
-                    {
-
-                        monsterManager.enemyList[1].MonHP -= 10; //플레이어 공격력 기입 예정
-
-                        Console.Write("Chad 의 공격!");
-                        Console.Write($"Lv.{monsterManager.enemyList[1].Level} {monsterManager.enemyList[1].monName} 을(를) 공격하였습니다.");
-                        Console.Write($"[ 데미지 : 10 ]");
-
-                        if (monsterManager.enemyList[1].MonHP > 0)
-                        {
-                            Console.WriteLine($"[ {monsterManager.enemyList[1].monName}의 남은 체력 : {monsterManager.enemyList[1].monHP} ]");
-                        }
-                        else
-                        {
-                            monsterManager.enemyList[1].isDead = true;
-                            Console.WriteLine("[ Dead ]");
-                        }
-                        Console.ReadLine();
-                        //Console.Write("\n\n1. 다음으로\n");
-                        //ConsoleUtility.PromptMenuChoice(1, 1);
-                        break;
-                    }
-                case 3:
-                    if (monsterManager.enemyList.Count < 3) // 적의수가 3명이 아니면
-                    {
-                        Console.WriteLine("잘못입력.");
-                        break;
-                    }
-                    else
-                    {
-
-                        monsterManager.enemyList[2].MonHP -= 10; //플레이어 공격력 기입 예정
-
-                        Console.Write("Chad 의 공격!");
-                        Console.Write($"Lv.{monsterManager.enemyList[2].Level} {monsterManager.enemyList[2].monName} 을(를) 공격하였습니다.");
-                        Console.Write($"[ 데미지 : 10 ]");
-
-                        if (monsterManager.enemyList[2].MonHP > 0)
-                        {
-                            Console.WriteLine($"[  {monsterManager.enemyList[2].monName} 의 남은 체력 : {monsterManager.enemyList[2].monHP} ]");
-                        }
-                        else
-                        {
-                            monsterManager.enemyList[2].isDead = true;
-                            Console.WriteLine("[ Dead ]");
-                        }
-                        Console.ReadLine();
-                        //Console.Write("\n\n1. 다음으로\n");
-                        //ConsoleUtility.PromptMenuChoice(1, 1);
-                        break;
-                    }
-                case 4:
-                    if (monsterManager.enemyList.Count < 4) // 적의수가 4명이 아니면
-                    {
-                        Console.WriteLine("잘못입력.");
-                        break;
-                    }
-                    else
-                    {
-
-                        monsterManager.enemyList[3].MonHP -= 10; //플레이어 공격력 기입 예정
-
-                        Console.Write("Chad 의 공격!");
-                        Console.Write($"Lv.{monsterManager.enemyList[3].Level} {monsterManager.enemyList[3].monName} 을(를) 공격하였습니다.");
-                        Console.Write($"[ 데미지 : 10 ]");
-
-                        if (monsterManager.enemyList[3].MonHP > 0)
-                        {
-                            Console.WriteLine($"[  {monsterManager.enemyList[3].monName} 의 남은 체력 : {monsterManager.enemyList[3].monHP} ]");
-                        }
-                        else
-                        {
-                            monsterManager.enemyList[3].isDead = true;
-                            Console.WriteLine("[ Dead ]");
-                        }
-                        Console.ReadLine();
-                        //Console.Write("\n\n1. 다음으로\n");
-                        //ConsoleUtility.PromptMenuChoice(1, 1);
-                        break;
-                    }
+                if (!monsterManager.enemyList[i].IsDead)
+                {
+                    Console.WriteLine($"{i + 1}. Lv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName}");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"{i + 1}. Lv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName} [ Dead ]");
+                    Console.ResetColor();
+                }
             }
+
+            int choice;
+            do
+            {
+                Console.Write(">>");
+                choice = ConsoleUtility.PromptMenuChoice(1, monsterManager.enemyList.Count);
+
+                // 선택된 몬스터가 이미 죽어있는 경우 안내 메시지 표시
+                if (monsterManager.enemyList[choice - 1].IsDead)
+                {
+                    Console.WriteLine("이 몬스터는 이미 죽어있습니다. 다른 몬스터를 선택해주세요.");
+                }
+            } while (monsterManager.enemyList[choice - 1].IsDead); // 선택된 몬스터가 이미 죽어있는 경우 다시 선택하도록 반복
+
+            // 선택된 몬스터에 대한 공격 처리
+            PlayerAttack();
+            monsterManager.enemyList[choice - 1].MonHP -=random_attackErrorrange; // 플레이어 공격력 기입 예정
+
+            Console.Write("\nChad의 공격! ");
+            Console.Write($"Lv.{monsterManager.enemyList[choice - 1].Level} {monsterManager.enemyList[choice - 1].MonName}을(를) 공격하였습니다. ");
+            Console.Write($" {random_attackErrorrange} ");
+
+            if (monsterManager.enemyList[choice - 1].MonHP > 0)
+            {
+                Console.WriteLine($"[ {monsterManager.enemyList[choice - 1].MonName}의 남은 체력 : {monsterManager.enemyList[choice - 1].MonHP} ]");
+            }
+            else
+            {
+                monsterManager.enemyList[choice - 1].IsDead = true;
+                Console.WriteLine("[ Dead ]");
+            }
+            Console.ReadKey();
             MonsterPhase();
         }
         public void UsePotion()
@@ -192,17 +127,18 @@ namespace B04Project
         }
 
         public void MonsterPhase()
-        {
+        {   
             for (int i = 0; i < monsterManager.enemyList.Count; i++)
             {
-                Console.Write($"Lv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName}의 공격! ");
-                Console.Write($"[ 데미지 : {monsterManager.enemyList[i].monPower} ] ");
-                HitPoint -= monsterManager.enemyList[i].monPower; // player.cs 완성되면 player.Hp 입력
+                if (!monsterManager.enemyList[i].IsDead)
+                {
+                    Console.Write($"\nLv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName}의 공격! ");
+                    Console.Write($"[ 데미지 : {monsterManager.enemyList[i].monPower} ] ");
+                    HitPoint -= monsterManager.enemyList[i].monPower; // player.cs 완성되면 player.Hp 입력
 
-                Console.WriteLine($"[ Chad의 남은 체력 : {HitPoint} ]"); // player.cs 완성되면 player.Hp 입력
-                Console.ReadLine();
-                //Console.Write("\n\n1. 다음으로\n");
-                //ConsoleUtility.PromptMenuChoice(1, 1);
+                    Console.WriteLine($"[ Chad의 남은 체력 : {HitPoint} ]"); // player.cs 완성되면 player.Hp 입력
+                    Console.ReadKey();
+                }
             }
         }
 
@@ -245,6 +181,15 @@ namespace B04Project
                         break;
                 }
             }
+        }
+
+        public void PlayerAttack()
+        {
+            int Atk = 13;
+            
+            Random rand = new Random();
+            int error = (int)Math.Ceiling(0.1f * Atk);
+            random_attackErrorrange = rand.Next((Atk - error),(Atk + error - 1));
         }
     }
 }

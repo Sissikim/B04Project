@@ -2,7 +2,6 @@
 using System;
 using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
-using B04Project;
 
 namespace B04Project
 {
@@ -29,7 +28,7 @@ namespace B04Project
             InitializeGame(); //게임 초기설정
         }
 
-        public void InitializeGame()
+        private void InitializeGame()
         {
             player = new PlayerManager();
             battleStart = new BattleStart();
@@ -69,7 +68,7 @@ namespace B04Project
                     StatusMenu();
                     break;
                 case 2:
-                    BattleStart.Battle();
+                    battleStart.Battle();
                     break;
                 case 3:
                     Inventory();
@@ -80,7 +79,7 @@ namespace B04Project
             } 
         }
 
-        public void StatusMenu()
+        private void StatusMenu()
         {
             Console.Clear();
             ConsoleUtility.ShowTitle("■ 상태보기 ■");
