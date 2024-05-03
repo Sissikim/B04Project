@@ -4,8 +4,7 @@ using System;
 namespace B04Project
 {
     public class Player
-    {
-
+    {  
         public string name;
         private string chad;
         private int level;        
@@ -126,6 +125,7 @@ namespace B04Project
             set { gold = value; }
         }
     }
+    
     public class PlayerManager
     {
         public List<Player> statusList;
@@ -133,7 +133,7 @@ namespace B04Project
         public PlayerManager()
         {
             statusList = new List<Player>();
-            statusList.Add(new Player("이름", "직업", 1, 5, 0, 0, 0, 30, 30, 10, 10, 2000));
+            statusList.Add(new Player("이름", "직업", 1, 5, 0, 0, 0, 30, 30, 10, 10, 3000));
         }
         public void NameChoice()
         {
@@ -178,7 +178,6 @@ namespace B04Project
                         {
                             break;
                         }
-
                     case 2:
                         Console.WriteLine("1. 정말? 마법사 선택\n0. 돌아가기\n");
                         Console.Write(">>");

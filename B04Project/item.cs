@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using B04Project;
 
 namespace B04Project
 {
+    
     public class Item
-    {
+    {         
         public int level;
         private string itemName;
         private string equipment;
@@ -42,7 +45,7 @@ namespace B04Project
             type = _type;  //아이템 능력(회복력,)
             itemValue = _itemValue; // 아이템능력치
             info = _info;   // 소개
-            price = _price; //가격            
+            price = _price; //가격 
             itemCarry = _itemCarry; //소지 갯수
             maxItemCarry = _maxItemCarry;//최대소지 갯수
         }
@@ -122,6 +125,8 @@ namespace B04Project
     }
     public class ItemManager
     {
+        static PlayerManager player = new PlayerManager();
+
         public List<Item> itemList; //전체 아이템 리스트
         public List<Item> myList; //내 보유한 리스트
         public ItemManager() //전체 아이템
@@ -136,20 +141,20 @@ namespace B04Project
             itemList.Add(new Item(0, "무쇠갑옷    ", "장비", false, "방어력", 9, "튼튼한 갑옷입니다.", 2000, false));
             itemList.Add(new Item(0, "스파르타의 갑옷", "장비", false, "방어력", 15, "전설의 갑옷입니다.", 3500, false));
 
-            itemList.Add(new Item(0, "구매 테스트용", "무역", "무역", 0, "잡탬.", 100,  0, 99));
-            itemList.Add(new Item(0, "판매 테스트용", "무역", "무역", 0, "잡탬.", 100,  0, 99));
+            itemList.Add(new Item(0, "구매 테스트용", "무역", "무역", 0, "잡탬.", 100, 0, 99));
+            itemList.Add(new Item(0, "판매 테스트용", "무역", "무역", 0, "잡탬.", 100, 0, 99));
 
-            itemList.Add(new Item(0,"소량 회복포션", "소모", "체력", 25, "25체력 회복약.", 100,  0, 10));
-            itemList.Add(new Item(0, "중량 회복포션", "소모", "체력", 50, "50체력 회복약.", 300,  0, 5));
-            itemList.Add(new Item(0, "대량 회복포션", "소모", "체력", 100, "100체력 회복약.", 1000,  0, 2));
+            itemList.Add(new Item(0, "소량 회복포션", "소모", "체력", 25, "25체력 회복약.", 100, 0, 10));
+            itemList.Add(new Item(0, "중량 회복포션", "소모", "체력", 50, "50체력 회복약.", 300, 0, 5));
+            itemList.Add(new Item(0, "대량 회복포션", "소모", "체력", 100, "100체력 회복약.", 1000, 0, 2));
 
-            itemList.Add(new Item(0, "소량 마나포션", "소모", "마력", 10, "10마력 회복약.", 100,  0, 10));
+            itemList.Add(new Item(0, "소량 마나포션", "소모", "마력", 10, "10마력 회복약.", 100, 0, 10));
             itemList.Add(new Item(0, "중량 마나포션", "소모", "마력", 25, "25마력 회복약.", 300, 0, 5));
-            itemList.Add(new Item(0, "대량 마나포션", "소모", "마력", 50, "50마력 회복약.", 1000,  0, 2));
+            itemList.Add(new Item(0, "대량 마나포션", "소모", "마력", 50, "50마력 회복약.", 1000, 0, 2));
         }
         public void MyInventory() //내인벤토리
         {
-            //myList.Clear(); //초기화 (사실 왜 하는진 모름.)
+            myList.Clear(); //초기화 (사실 왜 하는진 모름.)
             for (int i = 0; i < itemList.Count; i++)
             {
                 if (itemList[i].IsBuy)  //구매한 아이템 이라면
@@ -192,7 +197,6 @@ namespace B04Project
                     if (myList[i].Equipment == "무기" || myList[i].Equipment == "장비")
                     { Console.WriteLine($"{i + 1}. [{isEquipment}]{myList[i].Name}+{myList[i].Level}강 | {myList[i].Equipment} | {myList[i].Type} +{myList[i].ItemValue} | {myList[i].Info}"); }
                 }
-
                 Console.WriteLine("");
                 Console.WriteLine("0. 나가기");
                 Console.Write(">>");
@@ -221,7 +225,8 @@ namespace B04Project
                             }
                         }
                     }
-                }
+                    //i.IsEquipment==false // {미구현} 장비 낀거만 플레어어스텟 추가적용부
+                }                
             }
         }
         public void SetPotion() //내포션
@@ -238,13 +243,13 @@ namespace B04Project
             }
         }
         public void UsePotion(int _num)
-        { 
-                foreach (Item i in myList)
+        {
+            foreach (Item i in myList)
             {
                 if (i.Level == _num)
                 {
                     i.ItemCarry -= 1; // 소지수량에서 -1
-                    
+
                     if (i.Type == "체력") //체력 회복약이면
                     {
                         //플레이어 HP += myList[i].ItemValue //아이템 값만큼 체력회복 
@@ -267,14 +272,16 @@ namespace B04Project
         }
         public void ViewShop()
         {
+            Console.WriteLine($"소지골드 : {player.statusList[0].Gold} G");
+            Console.WriteLine("");
             for (int i = 0; i < itemList.Count; i++)
             {
                 string isBuy = itemList[i].IsBuy ? "구매함" : itemList[i].Price.ToString() + "G";
 
                 if (itemList[i].Equipment == "무역")
-                { Console.WriteLine($"{i + 1}. {itemList[i].Name}| {itemList[i].Equipment} | {itemList[i].Info} | {isBuy}"); }
+                { Console.WriteLine($"{i + 1}. {itemList[i].Name}| {itemList[i].Equipment} | {itemList[i].Info} |  ({itemList[i].ItemCarry}/{itemList[i].MaxItemCarry}) | {itemList[i].Price}G"); }
                 else if (itemList[i].Equipment == "소모")
-                {                    
+                {
                     Console.WriteLine($"{i + 1}. {itemList[i].Name}| {itemList[i].Equipment} | {itemList[i].Info} | ({itemList[i].ItemCarry}/{itemList[i].MaxItemCarry}) | {itemList[i].Price}G");
                 }
                 else //장비라면 
@@ -289,62 +296,112 @@ namespace B04Project
             {
                 Console.WriteLine("\n구매하실 아이템을 선택해주세요.");
                 Console.Write(">>");
-                choice = int.Parse(Console.ReadLine())-1;
+                choice = int.Parse(Console.ReadLine());
                 Console.Clear();
-                
+
+                if (choice == 0) break; //0를 입력받음 [나가기를 원함]
+                else choice--; //1이상을 누름 아이템을 선택함 [아이탬목록은 0부터 시작이라서]
+
                 Item item = itemList[choice];//선택한 아이템이
-                if (item.IsBuy) //이미 구매된 상품이라면
+                Console.Write($"{item.Name} 을 ");
+                if (item.Equipment == "무기" || item.Equipment == "장비")
                 {
-                    Console.WriteLine("이미 구매한거임.");
+                    if (item.IsBuy == true) //이미 구매된 상품이라면
+                    {
+                        Console.WriteLine("이미 구매한거임.");
+                    }
+                    else if (player.statusList[0].Gold > item.Price && item.IsBuy == false) // 구매 가능
+                    {
+                        Console.WriteLine("구매완료.");
+                        item.IsBuy = true;
+                        player.statusList[0].Gold -= item.Price; //돈 나감
+                    }
+                    else if (player.statusList[0].Gold < item.Price) // 돈 없으면
+                    {
+                        Console.WriteLine("님 돈 없.");
+                    }
+                    else // 잘못된 입력
+                    {
+                        Console.WriteLine("잘못된 입력.");
+                    }
                 }
-                else if (item.ItemCarry >= item.MaxItemCarry) //최대소지수량 일때
+                else if ((item.Equipment == "소모" || item.Equipment == "무역"))
                 {
-                    Console.WriteLine("이미 최대치임.");
+                    if (item.ItemCarry >= item.MaxItemCarry) //최대소지수량 일때
+                    {
+                        Console.WriteLine("이미 최대치임.");
+                    }
+                    else if (player.statusList[0].Gold > item.Price && item.ItemCarry < item.MaxItemCarry) //중첩가능 구매시
+                    {
+                        Console.WriteLine("구매완료.");
+                        item.ItemCarry += 1;
+                        player.statusList[0].Gold -= item.Price; //돈 나감
+                    }
+                    else if (player.statusList[0].Gold < item.Price) // 돈 없으면
+                    {
+                        Console.WriteLine("님 돈 없.");
+                    }
                 }
-                else if (item.ItemCarry < item.MaxItemCarry) //중첩가능 구매시
+                else // 잘못된 입력
                 {
-                    item.ItemCarry += 1;
-                    // player.Gold -= item.Price; //돈 나감
+                    Console.WriteLine("잘못된 입력.");
                 }
-                else // 구매 가능
-                {
-                    item.IsBuy = true;
-                    // player.Gold -= item.Price; //돈 나감
-                }                
+                Console.WriteLine("");
                 ViewShop();
             }
         }
         public void SellShopItem()
         {
-            int choice=0;
+            int choice = 0;
             while (choice >= 0)
             {
-                Console.WriteLine("\n판매하실 아이템을 선택해주세요.");
+                Console.WriteLine("\n구매하실 아이템을 선택해주세요.");
                 Console.Write(">>");
                 choice = int.Parse(Console.ReadLine());
-                choice -= 1;
+                Console.Clear();
+
+                if (choice == 0) break; //0를 입력받음 [나가기를 원함]
+                else choice--; //1이상을 누름 아이템을 선택함 [아이탬목록은 0부터 시작이라서]
 
                 Item item = itemList[choice];//선택한 아이템이
-
-                if (!item.IsBuy) //이미 판매된 상품이거나 안 가지고 있는 경우
+                Console.Write($"{item.Name} 을 ");
+                if (item.Equipment == "무기" || item.Equipment == "장비")
                 {
-                    Console.WriteLine("없잔씀...");
+                    if (item.IsBuy == false) //이미 판매된 상품이라면
+                    {
+                        Console.WriteLine("없었거나 이미 판매한거임.");
+                    }
+                    else if (item.IsBuy == true) // 판매 가능
+                    {
+                        Console.WriteLine("판매완료.");
+                        item.IsBuy = false;
+                        player.statusList[0].Gold += item.Price; //돈 입금
+                    }
+                    else // 잘못된 입력
+                    {
+                        Console.WriteLine("잘못된 입력.");
+                    }
                 }
-                else if (item.ItemCarry <= 0) //소지수량이 0이면
+                else if ((item.Equipment == "소모" || item.Equipment == "무역"))
                 {
-                    Console.WriteLine("없잔씀...");
+                    if (item.ItemCarry == 0) //소지수량 0일때
+                    {
+                        Console.WriteLine("가진게 없네?.");
+                    }
+                    else if (item.ItemCarry < item.MaxItemCarry) //중첩가능 구매시
+                    {
+                        Console.WriteLine("구매완료.");
+                        item.ItemCarry -= 1;
+                        player.statusList[0].Gold += item.Price; //돈 입금
+                    } 
                 }
-                else if (item.ItemCarry < item.MaxItemCarry) //중첩품 판매시
+                else // 잘못된 입력
                 {
-                    item.ItemCarry -= 1;
-                    // player.Gold += item.Price; //돈 들어옴
+                    Console.WriteLine("잘못된 입력.");
                 }
-                else // 구매 가능
-                {
-                    item.IsBuy = false;
-                    // player.Gold += item.Price; //돈 들어옴
-                }
+                Console.WriteLine("");
+                ViewShop();
             }
         }
-    }
+    }                
 }

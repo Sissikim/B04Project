@@ -4,8 +4,7 @@ using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 
 namespace B04Project
-{
-
+{    
     public class GameManager
     {
         static PlayerManager player;
@@ -28,16 +27,16 @@ namespace B04Project
         {
             Console.Clear();
             ConsoleUtility.PrintGameHeader();
-            player.NameChoice();
-            player.JobChoice();
-            Console.WriteLine("진행하시려면 아무키나 누르세요");
-            Console.ReadKey(); //아무키나 누르세요 같은거임.
+            //player.NameChoice();
+            //player.JobChoice();
+            //Console.WriteLine("진행하시려면 아무키나 누르세요");
+            //Console.ReadKey(); //아무키나 누르세요 같은거임.
+            itemManager.MyInventory();
             MainMenu();
         }
 
         public void MainMenu()
-        {
-            itemManager.MyInventory();
+        {            
             Console.Clear();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");
@@ -45,7 +44,7 @@ namespace B04Project
             Console.WriteLine("1. 상태 보기\n2. 전투 시작\n3. 인벤토리\n4. 상점\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
-
+            
             int choice = ConsoleUtility.PromptMenuChoice(1, 4);
             switch (choice)
             {
@@ -61,7 +60,7 @@ namespace B04Project
                 case 4:
                     Shop();
                     break;
-            }            
+            } 
         }
 
         private void StatusMenu()
@@ -85,7 +84,7 @@ namespace B04Project
             Console.WriteLine("0. 나가기");
             Console.WriteLine("");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
-            Console.Write(">>");
+            Console.Write(">>");            
 
             switch (ConsoleUtility.PromptMenuChoice (0, 0))
             {
@@ -112,22 +111,23 @@ namespace B04Project
                 case 1:
                     Console.Clear();
                     itemManager.SetEquipmenty();
-                    itemManager.MyInventory();//장비장착으로 아이템정보값 변경.>> 다시호출 아이템리스트 갱신
+                    //itemManager.MyInventory();//장비장착으로 아이템정보값 변경.>> 다시호출 아이템리스트 갱신
                     // 아이템으로 인한 플레이어 능력치 또한 변경되니 요기서 호출해서 갱신
                     break;
             }
         }
         public void Shop()
         {
-            Console.Clear();
-            ConsoleUtility.ShowTitle("■ 상 점 ■");
-            Console.WriteLine("");
-            itemManager.ViewShop();
-            Console.WriteLine("");
-            Console.WriteLine("1. 구매하기\n2. 판매하기\n0. 나가기\n");
-            Console.Write(">>");
             while (true)
             {
+                Console.Clear();
+                ConsoleUtility.ShowTitle("■ 상 점 ■");
+                Console.WriteLine("");
+                itemManager.ViewShop();
+                Console.WriteLine("");
+                Console.WriteLine("1. 구매하기\n2. 판매하기\n0. 나가기\n");
+                Console.Write(">>");
+
                 switch (ConsoleUtility.PromptMenuChoice(0, 2))
                 {
                     case 0:
@@ -135,15 +135,15 @@ namespace B04Project
                         break;
                     case 1:
                         itemManager.BuyShopItem();
-                        itemManager.MyInventory();//아이템 구매,판매로 아이템정보값 변경.>> 다시호출 아이템리스트 갱신
+                        //itemManager.MyInventory();//아이템 구매,판매로 아이템정보값 변경.>> 다시호출 아이템리스트 갱신
                         //player.Status();        // 아이템으로 인한 플레이어 능력치 또한 변경되니 요기서 호출해서 갱신
                         break;
                     case 2:
                         itemManager.SellShopItem();
-                        itemManager.MyInventory();//아이템 구매,판매로 아이템정보값 변경.>> 다시호출 아이템리스트 갱신
+                        //itemManager.MyInventory();//아이템 구매,판매로 아이템정보값 변경.>> 다시호출 아이템리스트 갱신
                         //player.Status();        // 아이템으로 인한 플레이어 능력치 또한 변경되니 요기서 호출해서 갱신
                         break;
-                }
+                }                
             }
         }
     }
