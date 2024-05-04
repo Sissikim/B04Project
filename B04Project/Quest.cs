@@ -182,7 +182,10 @@ namespace B04Project
                     }
                     else { i.ItemCarry += 1; } //나머지 보상은 무역품이니 걍 수량 1증가
                 }
-            }       
+            }
+            QList[num].isClear = false;
+            QList[num].isChoise = false;
+            if (QList[num]== QList[1]) { QList.Remove(QList[1]); }//장비 착용퀘는 1회용
         }
         public void QuestClear(int _num) //퀘스트 성공햇는지 파악
         {
@@ -200,8 +203,7 @@ namespace B04Project
                     if (QList[_num].isChoise && GameManager.player.statusList[0].Level >= QList[2].request) //현재랩이 퀘수락시 랩보다 높으면 [랩업햇으면]
                     { QList[_num].isClear = true; }
                     break;
-            }
-            
+            }            
         }
     }
 }
