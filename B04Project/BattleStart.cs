@@ -7,7 +7,7 @@ using B04Project;
 
 namespace B04Project
 {
-    internal class BattleStart
+    public class BattleStart
     {
         public BattleStart(GameManager GM)
         {
