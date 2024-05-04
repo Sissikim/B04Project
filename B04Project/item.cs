@@ -176,17 +176,19 @@ namespace B04Project
             {
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ 인벤토리 ■");
-                Console.WriteLine("");
+                Console.WriteLine("");                
                 for (int i = 0; i < myList.Count; i++)
                 {
                     string isEquipment = myList[i].IsEquipment ? "E" : "X"; //착용된 장비면 "E" 아니면 "X"
                     if (myList[i].Equipment == "무역") // 장비군이 무역탬이면 [강화,공격력,착용여부 등 표시 할 필요 없어서]
-                    { Console.WriteLine($"{myList[i].Name}| {myList[i].Equipment} | {myList[i].Info} | ({myList[i].ItemCarry}/{myList[i].MaxItemCarry} | {myList[i].Price}G"); }
+                    { Console.WriteLine($"{myList[i].Name}| {myList[i].Equipment} | {myList[i].Info} | ({myList[i].ItemCarry}/{myList[i].MaxItemCarry}) | {myList[i].Price}G"); }
                     else if (myList[i].Equipment == "소모") //장비군이 소모탬이면 [강화,착용여부 등 표시 할 필요 없어서]
                     { Console.WriteLine($"{myList[i].Name}| {myList[i].Equipment} | {myList[i].Info} | ({myList[i].ItemCarry}/{myList[i].MaxItemCarry})"); }
                     else //장비라면 
                     { Console.WriteLine($"[{isEquipment}]{myList[i].Name}+{myList[i].Level}강 | {myList[i].Equipment} | {myList[i].Type} +{myList[i].ItemValue} | {myList[i].Info}"); }
                 }
+                Console.WriteLine("");
+                Console.WriteLine($"보유골드 [{GameManager.player.statusList[0].Gold}G]");
                 Console.WriteLine("");
                 Console.WriteLine("1. 착용하기\n0. 나가기\n");
                 Console.Write(">>");

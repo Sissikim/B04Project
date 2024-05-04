@@ -64,7 +64,7 @@ namespace B04Project
                     break;
                 case 5:
                     questManager.ShowQuest();
-                    break;
+                    break;               
             } 
         }
 
@@ -100,6 +100,7 @@ namespace B04Project
         }
         public void Inventory()
         {
+            itemManager.MyInventory();
             Console.Clear();
             ConsoleUtility.ShowTitle("■ 인벤토리 ■");
             Console.WriteLine("");

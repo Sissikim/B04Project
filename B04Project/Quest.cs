@@ -59,12 +59,13 @@ namespace B04Project
                 Console.WriteLine("");
                 QuestList();                
                 Console.WriteLine("");
-                Console.WriteLine("0. 나가기");
+                Console.WriteLine("0. 나가기");                
+                Console.WriteLine("9.강해지기 퀘확인용 강제 랩업");
                 Console.WriteLine("");
                 Console.WriteLine("원하시는 퀘스트를 선택하세요.");
                 Console.Write(">>");
                 
-                switch (ConsoleUtility.PromptMenuChoice(0, 3))
+                switch (ConsoleUtility.PromptMenuChoice(0, 9))
                 {
                     case 0:
                         gameManager.MainMenu();
@@ -80,6 +81,11 @@ namespace B04Project
                     case 3:
                         Console.Clear();                        
                         Quests(2);
+                        break;
+                    case 9:   //강해지기 퀘 확인용                        
+                        GameManager.player.statusList[0].Level += 1;
+                        Console.WriteLine("[치트감지] 랩업아무키나 누르세요");
+                        Console.ReadKey();
                         break;
                 }
             }
@@ -133,38 +139,38 @@ namespace B04Project
             if (QList[num].isClear) //퀘 성공시
             {
                 Console.WriteLine("1.보상 받기");
-                Console.WriteLine("2.돌아가기");
+                Console.WriteLine("0.돌아가기");
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
                 Console.Write(">>");
                 switch (ConsoleUtility.PromptMenuChoice(1, 2))
                 {
+                    case 0:
+                        break;
                     case 1:
                         Console.WriteLine(" 보상이 정상적으로 지급되었습니다 ");
                         QuestReward(num);
                         Console.WriteLine("진행하시려면 아무키나 누르세요");
                         Console.ReadKey();
-                        break;
-                    case 2:
-                        break;
+                        break;                        
                 }
             }
             else if (!QList[num].isChoise) //아직 선택안했을때 나오는 것
             {
                 Console.WriteLine("1. 수락");
-                Console.WriteLine("2. 거절");
+                Console.WriteLine("0. 거절");
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
                 Console.Write(">>");
-                switch (ConsoleUtility.PromptMenuChoice(1, 2))
+                switch (ConsoleUtility.PromptMenuChoice(0, 1))
                 {
+                    case 0:                        
+                        break;
                     case 1:
-                        Console.WriteLine(" 수락 하였습니다 ");                        
+                        Console.WriteLine(" 수락 하였습니다 ");
                         QList[num].isChoise = true;
-                        if (QList[num].questName == "더욱 더 강해지기!") 
+                        if (QList[num].questName == "더욱 더 강해지기!")
                         { QList[num].request = GameManager.player.statusList[0].Level; }
                         Console.WriteLine("진행하시려면 아무키나 누르세요");
                         Console.ReadKey();
-                        break;
-                    case 2:
                         break;
                 }
             }
@@ -188,7 +194,7 @@ namespace B04Project
                     { QList[_num].isClear = true; }
                     break;
                 case 2:
-                    if (QList[_num].isChoise && GameManager.player.statusList[0].Level >= QList[2].request) //현재랩이 퀘수락시 랩보다 높으면 [랩업햇으면]
+                    if (QList[_num].isChoise && GameManager.player.statusList[0].Level > QList[2].request) //현재랩이 퀘수락시 랩보다 높으면 [랩업햇으면]
                     { QList[_num].isClear = true; }
                     break;
             }
