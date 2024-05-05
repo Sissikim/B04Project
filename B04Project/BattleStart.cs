@@ -110,8 +110,16 @@ namespace B04Project
 
             Console.Write("\nChad의 공격! ");
             Console.Write($"Lv.{monsterManager.enemyList[choice - 1].Level} {monsterManager.enemyList[choice - 1].MonName}을(를) 공격하였습니다. ");
-            Console.Write($"[ 데미지 : {random_attackErrorrange} ] ");
 
+            if (random_attackErrorrange == (int)(1.6f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk)))
+            {
+                Console.Write($"[ 치명타 !! ] [ 데미지 : {random_attackErrorrange} ] ");
+            }
+            else
+            {
+                Console.Write($"[ 데미지 : {random_attackErrorrange} ] ");
+            }
+            
             if (monsterManager.enemyList[choice - 1].MonHP > 0)
             {
                 Console.WriteLine($"[ {monsterManager.enemyList[choice - 1].MonName}의 남은 체력 : {monsterManager.enemyList[choice - 1].MonHP} ]");
@@ -195,7 +203,16 @@ namespace B04Project
         {
             Random rand = new Random();
             int error = (int)Math.Ceiling(0.1f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
-            random_attackErrorrange = rand.Next((GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk - error),(GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk + error + 1));
+            int randValue = rand.Next(100);
+
+            if (randValue <= 49)
+            {
+                random_attackErrorrange = (int)(1.6f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
+            }
+            else
+            {
+                random_attackErrorrange = rand.Next((GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk - error), (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk + error + 1));
+            }
         }
     }
 }
