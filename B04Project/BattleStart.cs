@@ -205,7 +205,7 @@ namespace B04Project
             int error = (int)Math.Ceiling(0.1f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
             int randValue = rand.Next(100);
 
-            if (randValue <= 49)
+            if (randValue <= 14)
             {
                 random_attackErrorrange = (int)(1.6f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
             }
