@@ -144,14 +144,35 @@ namespace B04Project
                 if (!monsterManager.enemyList[i].IsDead)
                 {
                     Console.Write($"\nLv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName}의 공격! ");
-                    Console.Write($"[ 데미지 : {monsterManager.enemyList[i].monPower} ] ");
-                    GameManager.player.statusList[0].Hp -= monsterManager.enemyList[i].monPower;
 
-                    if (GameManager.player.statusList[0].Hp <= 0)
+                    int mondamage = monsterManager.enemyList[i].monPower;
+                    bool avoid = false;
+                    int avoidchance = 10; // 회피율 10% ( 플레이어 정보에 회피율 적용시 수정 )
+
+                    if (avoidchance > 0)
                     {
-                        GameManager.player.statusList[0].Hp = 0;
+                        Random rand = new Random();
+                        int avoidRoll = rand.Next(100);
+
+                        if (avoidRoll < avoidchance)
+                        {
+                            Console.WriteLine($"[ 회피 성공 !! ]");
+                            avoid = true;
+                        }
                     }
-                    Console.WriteLine($"[ {GameManager.player.statusList[0].Name}의 남은 체력 : {GameManager.player.statusList[0].Hp} ]");
+
+                    if (!avoid)
+                    {
+                        Console.Write($"[ 데미지 : {mondamage} ] ");
+                        GameManager.player.statusList[0].Hp -= mondamage;
+
+                        if (GameManager.player.statusList[0].Hp <= 0)
+                        {
+                            GameManager.player.statusList[0].Hp = 0;
+                        }
+                        Console.WriteLine($"[ {GameManager.player.statusList[0].Name}의 남은 체력 : {GameManager.player.statusList[0].Hp} ]");
+                    }
+
                     Console.ReadKey();
                 }
             }
