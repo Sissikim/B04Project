@@ -226,7 +226,7 @@ namespace B04Project
             int error = (int)Math.Ceiling(0.1f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
             int randValue = rand.Next(100);
 
-            if (randValue <= 14)
+            if (randValue <= 14) // 플레이어 정보에 치명타 추가 시 수정
             {
                 random_attackErrorrange = (int)(1.6f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
             }
