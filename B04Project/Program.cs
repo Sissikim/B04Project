@@ -97,6 +97,7 @@ namespace B04Project
             Console.WriteLine($"Gold : {player.statusList[0].Gold} G");
             Console.WriteLine("");
             Console.WriteLine("");
+            Console.WriteLine("");
             Console.WriteLine("0. 나가기");
             Console.WriteLine("");
             Console.WriteLine("원하시는 행동을 입력해주세요.");

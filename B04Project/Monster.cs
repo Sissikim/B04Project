@@ -64,6 +64,7 @@ namespace B04Project
             {
                 monHP = 0;
                 isDead = true;
+                //경험치를 여기서 줘야할듯
             }
             return isDead;
         }
@@ -78,16 +79,16 @@ namespace B04Project
             monList = new List<Monster>();
             enemyList = new List<Monster>();
 
-            monList.Add(new Monster(1, "공허충", 10, 3, false));
-            monList.Add(new Monster(1, "미니언", 15, 5, false));
-            monList.Add(new Monster(1, "대포미니언", 25, 8, false));
-            monList.Add(new Monster(1, "슈퍼미니언", 50, 12, false));
+            monList.Add(new Monster(1, "공허충", 2, 2, false));
+            monList.Add(new Monster(1, "미니언", 2, 3, false));
+            monList.Add(new Monster(1, "대포미니언", 2, 4, false));
+            monList.Add(new Monster(1, "슈퍼미니언", 2, 7, false));
         }
         public List<Monster> BattleMonsterMake() //전투에 쓰일 몬스터 가져오기 
         {
             int listCount = new Random().Next(0, 4); //등장수 1~4
             int random; //같은 몹도 나올수 잇게 하기 위함
-            int renLevel; //몹랩에 랜덤
+            int renLevel; //몹랩에 랜덤 - 몹랩==경험치
            
             enemyList.Clear();
             for (int i = 0; i <= listCount; i++)
@@ -111,7 +112,7 @@ namespace B04Project
             {
                 string monHp = enemyList[i].IsDead ? "Dead" : enemyList[i].MonHP.ToString(); //몹 체력이 0이면 "dead"표기
 
-                Console.WriteLine($"[{i + 1}] Lv.{enemyList[i].Level} {enemyList[i].MonName} | 체력: {monHp} | 공격력: {enemyList[i].MonPower}");
+                Console.WriteLine($"[{i + 1}] Lv.{enemyList[i].Level}" + ConsoleColors.Red + enemyList[i].MonName + ConsoleColors.Reset +" | 체력: " + monHp + "| 공격력: " + enemyList[i].MonPower);
             }
             //string action = Console.ReadLine();
         }

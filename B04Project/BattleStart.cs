@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using B04Project;
@@ -13,7 +15,7 @@ namespace B04Project
         {
             gameManager = GM;
         }
-
+        static PlayerManager PlayerManager = new PlayerManager();
         static MonsterManager monsterManager = new MonsterManager();
         static GameManager gameManager;
         //static ItemManager itemManager = new ItemManager(); //아이템매니저 생성자        
@@ -81,7 +83,7 @@ namespace B04Project
             {
                 if (!monsterManager.enemyList[i].IsDead)
                 {
-                    Console.WriteLine($"{i + 1}. Lv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName}");
+                    Console.WriteLine($"{i + 1}. Lv.{monsterManager.enemyList[i].Level}" + ConsoleColors.Red + monsterManager.enemyList[i].MonName + ConsoleColors.Reset);
                 }
                 else
                 {
@@ -109,7 +111,7 @@ namespace B04Project
             monsterManager.enemyList[choice - 1].MonHP -=random_attackErrorrange;
 
             Console.Write("\nChad의 공격! ");
-            Console.Write($"Lv.{monsterManager.enemyList[choice - 1].Level} {monsterManager.enemyList[choice - 1].MonName}을(를) 공격하였습니다. ");
+            Console.Write($"Lv.{monsterManager.enemyList[choice - 1].Level}" + ConsoleColors.Red + monsterManager.enemyList[choice - 1].MonName + ConsoleColors.Reset ,"을(를) 공격하였습니다.") ;
             Console.Write($"[ 데미지 : {random_attackErrorrange} ] ");
 
             if (monsterManager.enemyList[choice - 1].MonHP > 0)
@@ -120,10 +122,27 @@ namespace B04Project
             {
                 monsterManager.enemyList[choice - 1].IsDead = true;
                 Console.WriteLine("[ Dead ]");
+                Console.WriteLine($"{monsterManager.enemyList[choice - 1].Level}의 경험치를 획득하였습니다.{GameManager.player.statusList[0].exp + monsterManager.enemyList[choice - 1].Level}/{GameManager.player.statusList[0].maxExp}");
+                GameManager.player.statusList[0].exp += monsterManager.enemyList[choice - 1].Level;
+
+                while (GameManager.player.statusList[0].exp >= GameManager.player.statusList[0].maxExp)
+                {
+                    GameManager.player.statusList[0].Level++;
+                    GameManager.player.statusList[0].Atk += 1; // 공격력 증가
+                    GameManager.player.statusList[0].Def += 1; // 방어력 증가
+                    GameManager.player.statusList[0].maxExp += (25 + PlayerManager.statusList[0].Level * 15); // 다음 레벨까지 필요한 경험치 증가
+                    GameManager.player.statusList[0].Exp = 0; // 현재 경험치 초기화
+                    Console.WriteLine($"레벨업! 현재 레벨: {GameManager.player.statusList[0].Level}");
+                }
+                
             }
             Console.ReadKey();
             MonsterPhase();
         }
+        
+
+        
+
         public void UsePotion()
         {
 
