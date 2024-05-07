@@ -219,7 +219,7 @@ namespace B04Project
                         NameChoice();
                         break;
                     case 1:
-                        Console.WriteLine("정말로" + ConsoleColors.Red + " 전사" + ConsoleColors.Reset + "의 길을 선택 하겠는가? \n 1. 전사의 길을 걷기 \n0. 돌아가기\n");
+                        Console.WriteLine("정말로" + ConsoleColors.Red + " 전사" + ConsoleColors.Reset + "의 길을 선택 하겠는가? \n1. 전사의 길을 걷기 \n0. 돌아가기\n");
                         Console.Write(">>");
                         choice = int.Parse(Console.ReadLine());
                         if (choice == 1)
@@ -237,7 +237,7 @@ namespace B04Project
                             return;
                         }
                     case 2:
-                        Console.WriteLine("정말로" + ConsoleColors.Red + " 마법사" + ConsoleColors.Reset + "를 선택할거야? \n 1. 마법사의 길을 선택하기\n0. 돌아가기\n");
+                        Console.WriteLine("정말로" + ConsoleColors.Red + " 마법사" + ConsoleColors.Reset + "를 선택할거야? \n1. 마법사의 길을 선택하기\n0. 돌아가기\n");
                         Console.Write(">>");
                         choice = int.Parse(Console.ReadLine());
                         if (choice == 1)
@@ -254,7 +254,7 @@ namespace B04Project
                             return;
                         }
                     case 3:
-                        Console.WriteLine("정말?" + ConsoleColors.Red + " 궁수" + ConsoleColors.Reset + "가 되고싶다고? 선택\n 1. 궁수가 되기로 결심하기 \n0. 돌아가기\n");
+                        Console.WriteLine("정말?" + ConsoleColors.Red + " 궁수" + ConsoleColors.Reset + "가 되고싶다고? 선택\n1. 궁수가 되기로 결심하기 \n0. 돌아가기\n");
                         Console.Write(">>");
                         choice = int.Parse(Console.ReadLine());
                         if (choice == 1)

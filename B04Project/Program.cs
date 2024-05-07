@@ -92,7 +92,7 @@ namespace B04Project
             Console.WriteLine($"마  력 : {player.statusList[0].Mp} / {player.statusList[0].MaxMp}");
             Console.WriteLine("=============================");
             Console.WriteLine($"공격력 : {player.statusList[0].Atk} +{player.statusList[0].TemAtk}");
-            Console.WriteLine($"방어력 :  {player.statusList[0].Def} +{player.statusList[0].TemDef}");
+            Console.WriteLine($"방어력 : {player.statusList[0].Def} +{player.statusList[0].TemDef}");
             Console.WriteLine("");
             Console.WriteLine($"Gold : {player.statusList[0].Gold} G");
             Console.WriteLine("");
