@@ -110,7 +110,7 @@ namespace B04Project
             PlayerAttack();
             monsterManager.enemyList[choice - 1].MonHP -=random_attackErrorrange;
 
-            Console.Write("\nChad의 공격! ");
+            Console.Write($"\n{GameManager.player.statusList[0].Name}의 공격! ");
             Console.Write($"Lv.{monsterManager.enemyList[choice - 1].Level}" + ConsoleColors.Red + monsterManager.enemyList[choice - 1].MonName + ConsoleColors.Reset ,"을(를) 공격하였습니다.") ;
             Console.Write($"[ 데미지 : {random_attackErrorrange} ] ");
 
