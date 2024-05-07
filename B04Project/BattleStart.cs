@@ -58,7 +58,7 @@ namespace B04Project
                 Console.WriteLine($"[ 내 정보 ]\nLv.{GameManager.player.statusList[0].Level} {GameManager.player.statusList[0].Name} ( {GameManager.player.statusList[0].Chad} )\nHP {GameManager.player.statusList[0].Hp} / {GameManager.player.statusList[0].MaxHp}"); // player.cs 완성되면 player.Hp 입력
                 //itemManager.SetPotion();
                 Console.WriteLine("");
-                Console.WriteLine("\n1. 공격\n2. 아이템 사용\n0. 나가기");
+                Console.WriteLine("\n1. 공격\n0. 나가기");
                 Console.Write(">>");
                 switch (ConsoleUtility.PromptMenuChoice(0, 2))
                 {
@@ -67,9 +67,6 @@ namespace B04Project
                         break;
                     case 1:
                         PlayerPhase();
-                        break;
-                    case 2:
-                        UsePotion();
                         break;
                 }
                 EndPhase();
