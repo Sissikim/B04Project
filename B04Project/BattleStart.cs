@@ -130,7 +130,7 @@ namespace B04Project
             else
             {
                 monsterManager.enemyList[choice - 1].IsDead = true;
-                Console.WriteLine("[ Dead ]");
+                
                 Console.WriteLine($"{monsterManager.enemyList[choice - 1].Level}의 경험치를 획득하였습니다.{GameManager.player.statusList[0].exp + monsterManager.enemyList[choice - 1].Level}/{GameManager.player.statusList[0].maxExp}");
                 GameManager.player.statusList[0].exp += monsterManager.enemyList[choice - 1].Level;
 
@@ -143,7 +143,7 @@ namespace B04Project
                     GameManager.player.statusList[0].Exp = 0; // 현재 경험치 초기화
                     Console.WriteLine($"레벨업! 현재 레벨: {GameManager.player.statusList[0].Level}");
                 }
-                
+                Console.WriteLine("[ Dead ]");
             }
             Console.ReadKey();
             MonsterPhase();

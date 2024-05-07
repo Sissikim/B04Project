@@ -41,10 +41,10 @@ namespace B04Project
         {
             Console.Clear();
             ConsoleUtility.PrintGameHeader();
-            //player.NameChoice();
-            //player.JobChoice();
-            //Console.WriteLine("진행하시려면 아무키나 누르세요");
-            //Console.ReadKey(); //아무키나 누르세요 같은거임.
+            player.NameChoice();
+            player.JobChoice();
+            Console.WriteLine("진행하시려면 아무키나 누르세요");
+            Console.ReadKey(); //아무키나 누르세요 같은거임.
             itemManager.MyInventory();
             MainMenu();
             

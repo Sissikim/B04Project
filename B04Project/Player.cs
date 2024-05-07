@@ -180,7 +180,7 @@ namespace B04Project
         public PlayerManager()
         {
             statusList = new List<Player>();
-            statusList.Add(new Player("이름", "직업", 1, 60, 10, 0, 0, 300, 300, 10, 10, 3000, 0, 10));
+            statusList.Add(new Player("이름", "직업", 1, 5, 10, 0, 0, 100, 100, 10, 10, 3000, 0, 10));
         }
 
 
