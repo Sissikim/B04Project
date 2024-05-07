@@ -110,7 +110,7 @@ namespace B04Project
             PlayerAttack();
             monsterManager.enemyList[choice - 1].MonHP -=random_attackErrorrange;
 
-            Console.Write("\nChad의 공격! ");
+            Console.Write($"\n{GameManager.player.statusList[0].Name}의 공격! ");
             Console.Write($"Lv.{monsterManager.enemyList[choice - 1].Level}" + ConsoleColors.Red + monsterManager.enemyList[choice - 1].MonName + ConsoleColors.Reset ,"을(를) 공격하였습니다.") ;
             Console.Write($"[ 데미지 : {random_attackErrorrange} ] ");
 
@@ -167,7 +167,7 @@ namespace B04Project
 
                     int mondamage = monsterManager.enemyList[i].monPower;
                     bool avoid = false;
-                    int avoidchance = 10;
+                    int avoidchance = 50;
 
                     if (avoidchance > 0)
                     {
@@ -246,7 +246,7 @@ namespace B04Project
             int error = (int)Math.Ceiling(0.1f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
             int randValue = rand.Next(100);
 
-            if (randValue <= 14)
+            if (randValue <= 49)
             {
                 random_attackErrorrange = (int)(1.6f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
             }
