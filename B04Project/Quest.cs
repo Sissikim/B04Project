@@ -38,9 +38,9 @@ namespace B04Project
 
             QList =
             [
-                new Quest("마을을 위협하는 미니언 처치",false, 0, false, "쓸만한 방패", 50),
-                new Quest("장비를 장착해보자!",false, 0, false, "판매 테스트용", 500),
+                new Quest("마을을 위협하는 미니언 처치",false, 0, false, "쓸만한 방패", 50),                
                 new Quest("더욱 더 강해지기!",false, 0, false, "판매 테스트용", 500),
+                new Quest("장비를 장착해보자!",false, 0, false, "판매 테스트용", 500),
             ];            
         }
         public void QuestList() 
@@ -110,20 +110,7 @@ namespace B04Project
                     Console.WriteLine("50G");
                     Console.WriteLine("");
                     break;
-                case 1: 
-                    Console.WriteLine("이봐! 마을 근처에 장비들이 너무 많아졌다고 생각하지 않나?");
-                    Console.WriteLine("마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!");
-                    Console.WriteLine("모험가인 자네가 좀 장착해보게!");
-                    Console.WriteLine("- 장비를 장착해보자! -");
-                    Console.WriteLine("");
-                    Console.WriteLine("- 보상-");
-                    Console.WriteLine("");
-                    Console.WriteLine("판매 테스트용, ");   
-                    Console.WriteLine("500G");
-                    Console.WriteLine("");
-                    break;
-                case 2:
-                    
+                case 1:
                     Console.WriteLine("이봐! 마을 근처에 미니언들이 너무 많아졌다고 생각하지 않나?");
                     Console.WriteLine("마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!");
                     Console.WriteLine("모험가인 자네가 좀 강해지게!");
@@ -131,8 +118,20 @@ namespace B04Project
                     Console.WriteLine("");
                     Console.WriteLine("- 보상-");
                     Console.WriteLine("");
-                    Console.Write("판매 테스트용, ");                    
+                    Console.Write("판매 테스트용, ");
                     Console.WriteLine(" 500G");
+                    Console.WriteLine("");                    
+                    break;
+                case 2:
+                    Console.WriteLine("이봐! 마을 근처에 장비들이 너무 많아졌다고 생각하지 않나?");
+                    Console.WriteLine("마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!");
+                    Console.WriteLine("모험가인 자네가 좀 장착해보게!");
+                    Console.WriteLine("- 장비를 장착해보자! -");
+                    Console.WriteLine("");
+                    Console.WriteLine("- 보상-");
+                    Console.WriteLine("");
+                    Console.WriteLine("판매 테스트용, ");
+                    Console.WriteLine("500G");
                     Console.WriteLine("");
                     break;
             }
@@ -194,7 +193,7 @@ namespace B04Project
                     { QList[_num].isClear = true; }
                     break;
                 case 2:
-                    if (QList[_num].isChoise && GameManager.player.statusList[0].Level > QList[2].request) //현재랩이 퀘수락시 랩보다 높으면 [랩업햇으면]
+                    if (QList[_num].isChoise && GameManager.player.statusList[0].Level > QList[1].request) //현재랩이 퀘수락시 랩보다 높으면 [랩업햇으면]
                     { QList[_num].isClear = true; }
                     break;
             }
@@ -217,7 +216,7 @@ namespace B04Project
             }
             QList[num].isClear = false;
             QList[num].isChoise = false;
-            if (QList[num]== QList[1]) { QList.Remove(QList[1]); }//장비 착용퀘는 1회용
+            if (QList[num]== QList[2]) { QList.Remove(QList[2]); }//장비 착용퀘는 1회용
         }
         
     }
