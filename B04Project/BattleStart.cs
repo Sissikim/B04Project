@@ -114,6 +114,15 @@ namespace B04Project
             Console.Write($"Lv.{monsterManager.enemyList[choice - 1].Level}" + ConsoleColors.Red + monsterManager.enemyList[choice - 1].MonName + ConsoleColors.Reset ,"을(를) 공격하였습니다.") ;
             Console.Write($"[ 데미지 : {random_attackErrorrange} ] ");
 
+            if (random_attackErrorrange == (int)(1.6f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk)))
+            {
+                Console.Write($"[ 치명타 !! ] [ 데미지 : {random_attackErrorrange} ]");
+            }
+            else
+            {
+                Console.Write($"[ 데미지 : {random_attackErrorrange} ]");
+            }
+
             if (monsterManager.enemyList[choice - 1].MonHP > 0)
             {
                 Console.WriteLine($"[ {monsterManager.enemyList[choice - 1].MonName}의 남은 체력 : {monsterManager.enemyList[choice - 1].MonHP} ]");
@@ -155,14 +164,35 @@ namespace B04Project
                 if (!monsterManager.enemyList[i].IsDead)
                 {
                     Console.Write($"\nLv.{monsterManager.enemyList[i].Level} {monsterManager.enemyList[i].MonName}의 공격! ");
-                    Console.Write($"[ 데미지 : {monsterManager.enemyList[i].monPower} ] ");
-                    GameManager.player.statusList[0].Hp -= monsterManager.enemyList[i].monPower;
 
-                    if (GameManager.player.statusList[0].Hp <= 0)
+                    int mondamage = monsterManager.enemyList[i].monPower;
+                    bool avoid = false;
+                    int avoidchance = 10;
+
+                    if (avoidchance > 0)
                     {
-                        GameManager.player.statusList[0].Hp = 0;
+                        Random rand = new Random();
+                        int avoidRoll = rand.Next(100);
+
+                        if (avoidRoll < avoidchance)
+                        {
+                            Console.WriteLine($"[ 회피 성공 !! ]");
+                            avoid = true;
+                        }
                     }
-                    Console.WriteLine($"[ {GameManager.player.statusList[0].Name}의 남은 체력 : {GameManager.player.statusList[0].Hp} ]");
+                    
+                    if (!avoid)
+                    {
+                        Console.Write($"[ 데미지 : {mondamage} ] ");
+                        GameManager.player.statusList[0].Hp -= mondamage;
+
+                        if (GameManager.player.statusList[0].Hp <= 0)
+                        {
+                            GameManager.player.statusList[0].Hp = 0;
+                        }
+                        Console.WriteLine($"{GameManager.player.statusList[0].Name}의 남은 체력 : {GameManager.player.statusList[0].Hp}");
+                    }
+                    
                     Console.ReadKey();
                 }
             }
@@ -214,7 +244,16 @@ namespace B04Project
         {
             Random rand = new Random();
             int error = (int)Math.Ceiling(0.1f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
-            random_attackErrorrange = rand.Next((GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk - error),(GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk + error + 1));
+            int randValue = rand.Next(100);
+
+            if (randValue <= 14)
+            {
+                random_attackErrorrange = (int)(1.6f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
+            }
+            else
+            {
+                random_attackErrorrange = rand.Next((GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk - error), (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk + error + 1));
+            }
         }
     }
 }
