@@ -21,7 +21,7 @@ namespace B04Project
     {
         public static PlayerManager player;
         public ItemManager itemManager;
-        public static BattleStart battleStart;
+        static BattleStart battleStart;
         public QuestManager questManager;
 
        public GameManager()

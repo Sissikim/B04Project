@@ -167,7 +167,7 @@ namespace B04Project
 
                     int mondamage = monsterManager.enemyList[i].monPower;
                     bool avoid = false;
-                    int avoidchance = 10;
+                    int avoidchance = 50;
 
                     if (avoidchance > 0)
                     {
@@ -246,7 +246,7 @@ namespace B04Project
             int error = (int)Math.Ceiling(0.1f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
             int randValue = rand.Next(100);
 
-            if (randValue <= 14)
+            if (randValue <= 49)
             {
                 random_attackErrorrange = (int)(1.6f * (GameManager.player.statusList[0].Atk + GameManager.player.statusList[0].TemAtk));
             }
